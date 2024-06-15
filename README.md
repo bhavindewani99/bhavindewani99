@@ -1,6 +1,10 @@
 <h1 align="center">Hi 👋, I'm Bhavin Devani</h1>
 <h3 align="center">Full-Stack Developer | Microservices Enthusiast | Passionate About Building Scalable and Efficient Software Solutions</h3>
 
+🔭 Enthusiastic software developer with 2 years at Infosys, specializing in full-stack development and microservices architecture.
+
+- 📚 Currently pursuing Masters in Computer Science at Santa Clara University, CA, US
+
 - 🌱 I’m currently learning **AWS**
 
 - 📫 How to reach me **bhavindewani@gmail.com**
