@@ -1,6 +1,6 @@
 Hi 👋, I'm Bhavin Devani! 
 
-- 💻 Enthusiastic software developer with 2 years of experience at Infosys, specializing in full-stack development and microservices architecture.
+- 💻 Enthusiastic software developer with 2 years of experience at Infosys. Specialized in full-stack development and microservices architecture during that time.
 
 - 📚 Currently pursuing Masters in Computer Science at Santa Clara University, CA, USA
 
