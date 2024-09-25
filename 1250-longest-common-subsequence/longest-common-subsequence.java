@@ -2,10 +2,30 @@ class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
         int n = text1.length();
         int m = text2.length();
-        return tabulation(n, m, text1, text2);
+        return spaceOptimzization(n, m, text1, text2);
+        //return tabulation(n, m, text1, text2);
         // int[][] dp = new int[n+1][m+1];
         // for(int[] temp : dp) Arrays.fill(temp, -1);
         // return recurison(n, m, text1, text2,dp);
+    }
+
+
+    private int spaceOptimzization(int n, int m, String text1, String text2){
+
+        int[] dp = new int[m+1];
+
+        for(int index1=1;index1<=n;index1++){
+            int[] temp = new int[m+1];
+            for(int index2=1;index2<=m;index2++){
+                if(text1.charAt(index1-1)==text2.charAt(index2-1)){
+                    temp[index2] = 1 + dp[index2-1];
+                }else{
+                    temp[index2] = Math.max(dp[index2],temp[index2-1]);
+                }
+            }
+            dp = temp;
+        }
+        return dp[m];
     }
 
     private int tabulation(int n, int m, String text1, String text2){
