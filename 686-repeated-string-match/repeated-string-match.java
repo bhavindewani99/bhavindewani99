@@ -1,5 +1,5 @@
 class Solution {
-    private final int PRIME = 101;
+    private final int PRIME = 29;
     public int repeatedStringMatch(String a, String b) {
         
         if(b.equals("")) return 0;
