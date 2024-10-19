@@ -68,7 +68,6 @@ class AllOne {
             preNode.next = newNode;
             currHead.prev = newNode;
             newNode.next = currHead;
-            newNode.keys.add(key);
         }
         map.put(key, currHead.prev);
         if(currHead.keys.size()==0 && currHead!=head){
