@@ -21,12 +21,10 @@ class Solution {
                 int repeatCount = Integer.parseInt(times.toString());
                 String repeatedStr = curr.toString().repeat(repeatCount);
                 
-                // Push the repeated string back into the stack
                 stack.add(repeatedStr);
             }
         }
 
-        // Build the final result from the stack
         StringBuilder result = new StringBuilder();
         while (!stack.isEmpty()) {
             result.insert(0, stack.pop());
