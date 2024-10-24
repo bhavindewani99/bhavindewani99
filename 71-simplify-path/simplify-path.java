@@ -1,7 +1,6 @@
 class Solution {
     public String simplifyPath(String path) {
         List<String> res = new ArrayList<>();
-        //res.add("/");
         int n = path.length();
         for(int i=1;i<path.length();i++){
             StringBuilder curr = new StringBuilder();
@@ -9,9 +8,7 @@ class Solution {
             while(index<n && path.charAt(index)!='/'){
                 curr.append(path.charAt(index++));
             }
-            System.out.println(curr);
             if(curr.toString().equals("..")){
-                System.out.println("yo");
                 if(res.size()>0) res.removeLast();
             }else if(!curr.toString().equals(".")){
                 res.add(curr.toString());
