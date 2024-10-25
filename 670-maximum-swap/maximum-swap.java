@@ -1,28 +1,27 @@
 class Solution {
     public int maximumSwap(int num) {
-
-        Map<Integer,Integer> map = new HashMap<>();
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> b-a);
+        int[] occurence= new int[10];
         String s = String.valueOf(num);
-
-        for(int i=0;i<s.length();i++){
-            int x = s.charAt(i) - '0';
-            pq.offer(x);
-            map.put(x, i);
+        char[] arr = s.toCharArray();
+        for(int i=0;i<arr.length;i++){
+            char c = s.charAt(i);
+            occurence[c-'0'] = i;
         }
 
         for(int i=0;i<s.length();i++){
-            int x = s.charAt(i) - '0';
-            int element = pq.poll();
-            if(x!=element){
-                StringBuilder res = new StringBuilder(s);
-                char temp = s.charAt(i);
-                int maxElemetIndex = map.get(element);
-                res.setCharAt(i, (char) (element +'0'));
-                res.setCharAt(maxElemetIndex, (char) (x + '0'));
-                return Integer.valueOf(res.toString());
+            for(int val=9;val>=0;val--){
+                if(occurence[val]>i && val > (s.charAt(i)-'0')){
+                    char temp = arr[i];
+                    arr[i] = (char) (val + '0');
+                    arr[occurence[val]] = temp;
+                    StringBuilder res = new StringBuilder();
+                    for(char m : arr) res.append(m);
+                    return Integer.valueOf(res.toString());
+                }
             }
         }
         return num;
+
+
     }
 }
