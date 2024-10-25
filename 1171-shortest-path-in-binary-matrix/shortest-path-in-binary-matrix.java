@@ -22,8 +22,8 @@ class Solution {
             for(int i=0;i<8;i++){
                 int r = x + rows[i];
                 int c = y + cols[i];
-                if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==0 && distance[r][c] > 1 + dist){
-                    distance[r][c] = 1 +dist;
+                if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==0){
+                    grid[r][c] =1;
                     pq.offer(new Pair(r,c,1+dist));
                     if(r==n-1 && c==m-1) return 1+dist;
                 }
