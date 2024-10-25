@@ -17,7 +17,7 @@ class Solution {
             int x = pq.peek().x;
             int y = pq.peek().y;
             int dist = pq.peek().dist;
-            if(x==n && y==m) return dist;
+            if(x==n-1 && y==m-1) return dist;
             pq.poll();
             for(int i=0;i<8;i++){
                 int r = x + rows[i];
@@ -29,7 +29,7 @@ class Solution {
                 }
             }
         }
-        return distance[n-1][m-1]==Integer.MAX_VALUE ? -1 : distance[n-1][m-1];
+        return -1;
 
     }
 
