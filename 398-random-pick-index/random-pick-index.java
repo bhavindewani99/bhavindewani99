@@ -22,8 +22,8 @@ class Solution {
         int pointer;
         List<Integer> indexes;
         Pair(){
-            this.pointer =0;
-            this.indexes = new ArrayList<>();
+            pointer =0;
+            indexes = new ArrayList<>();
         }
     }
 }
