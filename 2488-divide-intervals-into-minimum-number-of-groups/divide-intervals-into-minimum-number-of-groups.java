@@ -15,7 +15,7 @@ class Solution {
         for(int[] interval : intervals){
             int start = interval[0];
             int end = interval[1];
-            while(!pq.isEmpty() && pq.peek()<start) pq.poll();
+            if(!pq.isEmpty() && pq.peek()<start) pq.poll();
             pq.offer(end);
             res = Math.max(res, pq.size());
         }
