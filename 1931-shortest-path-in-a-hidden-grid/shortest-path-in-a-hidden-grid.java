@@ -5,10 +5,10 @@ class Solution {
     Solution() {
         directions = new int[][] {{1,0}, {0,1} , {-1,0}, {0,-1}};
         map = new HashMap<>();
-        map.put(0, 'R');
-        map.put(1, 'U');
-        map.put(2, 'L');
-        map.put(3, 'D');
+        map.put(0, 'D'); // Down
+        map.put(1, 'R'); // Right
+        map.put(2, 'U'); // Up
+        map.put(3, 'L'); // Left
     }
     
     private static final int BLOCKED = -1;
