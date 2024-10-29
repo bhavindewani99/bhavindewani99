@@ -12,8 +12,6 @@ public class Solution extends VersionControl {
             if(isBadVersion(mid)==true){
                 res = mid;
                 high = mid-1;
-            }else if(isBadVersion(low)==true){
-                high=mid-1;
             }else{
                 low = mid+1;
             }
