@@ -15,7 +15,7 @@
  */
 class Solution {
     public boolean isCompleteTree(TreeNode root) {
-        return BFS(root);
+        return DFS(root);
     }
 
     private boolean BFS(TreeNode root){
@@ -38,7 +38,7 @@ class Solution {
 
     private boolean DFS(TreeNode root){
         int totalNodes = countNodes(root);
-        return DFSflow(root,0,totalNodes);
+        return DFSflow(root,1,totalNodes);
     }
 
     private boolean DFSflow(TreeNode root, int index, int totalNodes){
