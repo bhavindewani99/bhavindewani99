@@ -13,13 +13,14 @@ class Solution {
             long start = (long) i;
             if (!used.contains(start)) {
                 int currLength = 1;
-                long x = start;
+                long x = start*start;
 
                 // Try to find the next square in sequence
-                while (set.contains(x * x)) {
+                while (set.contains(x)) {
+                    used.add(x);
                     x = x * x; // Move to the next square
                     currLength++;
-                    used.add(x); // Mark this number as used
+                     // Mark this number as used
                 }
                 
                 // Update max streak if current streak is longer
