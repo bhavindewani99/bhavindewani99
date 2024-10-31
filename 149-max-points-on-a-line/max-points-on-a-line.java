@@ -1,10 +1,6 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
     public int maxPoints(int[][] points) {
-        if (points.length < 2) return points.length; // Handle edge case
-        
+        if (points.length <= 2) return points.length;         
         int res = 1;
 
         for (int i = 0; i < points.length; i++) {
