@@ -17,7 +17,7 @@ class Solution {
                 }
                 // Horizontal line case
                 else if (p2[1] == p1[1]) {
-                    slope = 0.0; // Slope of a horizontal line is 0
+                    slope = Double.NEGATIVE_INFINITY; // Slope of a horizontal line is 0
                 }
                 // Calculate slope as a double
                 else {
