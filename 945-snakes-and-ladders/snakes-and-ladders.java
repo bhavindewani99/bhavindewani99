@@ -5,6 +5,7 @@ class Solution {
         reverseBoard(board, n);
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(new int[]{1,0}); // SquareNumber, Moves
+        set.add(1);
 
         while(!queue.isEmpty()){
             int currSquare = queue.peek()[0];
