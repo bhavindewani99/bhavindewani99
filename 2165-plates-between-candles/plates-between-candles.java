@@ -5,13 +5,13 @@ class Solution {
         int[] result = new int[queries.length];
         int[] nearestLeft = new int[n];
         int[] nearestRight= new int[n];
-        int[] candles = new int[n];
+        int[] plates = new int[n];
 
         // finding total plates
-        if(s.charAt(0)=='*') candles[0] = 1;
+        if(s.charAt(0)=='*') plates[0] = 1;
         for(int i=1;i<n;i++){
-            if(s.charAt(i)=='*') candles[i] = candles[i-1] +1;
-            else candles[i] = candles[i-1];
+            if(s.charAt(i)=='*') plates[i] = plates[i-1] +1;
+            else plates[i] = plates[i-1];
         }
 
         // finding nearestLeft candles
@@ -32,7 +32,7 @@ class Solution {
             int leftCandle = nearestRight[queries[i][0]];
             int rightCandle = nearestLeft[queries[i][1]];
             if(leftCandle==-1 || rightCandle==-1 || leftCandle>=rightCandle) continue;
-            result[i] = candles[rightCandle] - candles[leftCandle];
+            result[i] = plates[rightCandle] - plates[leftCandle];
         }
 
         return result;
