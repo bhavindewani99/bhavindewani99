@@ -3,7 +3,7 @@ class Solution {
         if (target > x + y) return false;
         if (target == 0) return true;
         int gcd = gcd(x, y);
-        if (target % gcd != 0) return false;
+        //if (target % gcd != 0) return false;
         Set<String> visited = new HashSet<>();
 
         return recursion(x,y,0,0,target,visited);
