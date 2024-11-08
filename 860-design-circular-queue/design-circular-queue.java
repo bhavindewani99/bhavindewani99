@@ -19,6 +19,10 @@ class MyCircularQueue {
 
         if (isEmpty()) {
             start = 0;
+            end=0;
+            array[end] = value;
+            count++;
+            return true;
         }
         end = (end + 1) % size;
         array[end] = value;
