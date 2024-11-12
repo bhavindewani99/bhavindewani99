@@ -8,13 +8,17 @@ class Solution {
 
     private int tabulation(int[] cost){
         int n = cost.length;
-        int[] dp = new int[n+2];
+        int lastone =0;
+        int lasttwo=0;
         for(int i=n-1;i>=0;i--){
-            int step1 = cost[i]+ dp[i+1];
-            int step2 = cost[i] + dp[i+2];
-            dp[i] = Math.min(step1,step2);
+            int step1 = cost[i]+ lastone;
+            int step2 = cost[i] + lasttwo;
+            int ans = Math.min(step1,step2);
+            int temp = lastone;
+            lastone= ans;
+            lasttwo = temp;
         }
-        return Math.min(dp[0],dp[1]);
+        return Math.min(lastone,lasttwo);
     }
 
     private int recursion(int index, int[] cost, int[] dp){
