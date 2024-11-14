@@ -4,7 +4,7 @@ class Solution {
         int maxi =0;
 
         for(int i:nums) maxi = Math.max(i, maxi);
-        int size = maxi+k+2;
+        int size = maxi+k+1;
 
         int[] freq = new int[size];
         for(int i:nums) freq[i]++;
