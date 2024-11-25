@@ -10,26 +10,25 @@
 class Solution {
     boolean foundp, foundq;
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        inOrder(root, p, q);
-        if(foundp==false || foundq==false) return null;
-        return recursion(root, p, q);
+        int[] exists = new int[2];
+        TreeNode result = recursion(root, p, q,exists);
+        return exists[0]+exists[1]==2 ? result : null; 
     }
 
-    private TreeNode recursion(TreeNode root, TreeNode p, TreeNode q){
-        if(root==null || root==p || root==q) return root;
-        TreeNode left =  lowestCommonAncestor(root.left,p,q);
-        TreeNode right = lowestCommonAncestor(root.right,p,q);
-        if(left==null) return right;
-        else if(right==null) return left;
-        else return root;
-    }
-
-    private void inOrder(TreeNode root, TreeNode p, TreeNode q){
-        if(root!=null){
-            if(root==p) foundp=true;
-            if(root==q) foundq=true;
-            inOrder(root.left, p, q);
-            inOrder(root.right, p, q);
+    private TreeNode recursion(TreeNode root, TreeNode p, TreeNode q, int[] exists){
+        if(root==null) return root;
+        TreeNode left =  recursion(root.left,p,q,exists);
+        TreeNode right = recursion(root.right,p,q,exists);
+        if(root==p){
+            exists[0]=1;
+            return root;
         }
+        if(root==q){
+            exists[1]=1;
+            return root;
+        }
+        if(left==null) return right;
+        if(right==null) return left;
+        return root;
     }
 }
