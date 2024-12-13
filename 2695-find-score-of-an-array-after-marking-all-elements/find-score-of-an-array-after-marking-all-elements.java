@@ -1,7 +1,6 @@
 class Solution {
     public long findScore(int[] nums) {
         int n = nums.length;
-        Map<Integer, Integer> map = new HashMap<>();
         PriorityQueue<Pair> pairs = new PriorityQueue<>((a,b) -> a.element==b.element ? a.index - b.index : a.element - b.element);
         Set<Integer> set = new HashSet<>();
         long score = 0;
