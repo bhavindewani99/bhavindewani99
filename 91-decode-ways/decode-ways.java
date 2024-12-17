@@ -31,7 +31,7 @@ class Solution {
         if(dp[index]!=-1) return dp[index];
         int one = recursion(index+1, s, dp);
         int two = 0;
-        if(index+1<s.length() && Integer.valueOf(s.substring(index,index+2))<27){
+        if(index+1<s.length()){
             two = recursion(index+2, s, dp);
         }
         return dp[index] = one + two;
