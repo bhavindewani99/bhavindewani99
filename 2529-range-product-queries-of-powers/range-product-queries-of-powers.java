@@ -1,30 +1,28 @@
 class Solution {
     public int[] productQueries(int n, int[][] queries) {
-        List<Long> powers = new ArrayList<>();
-        int[] result = new int[queries.length];
-        long mod = (int) 1e9 + 7;
-
-        // Step 1: Extract powers of 2 from binary representation of n
-        for (int i = 0; i < 32; i++) {
-            if (((1 << i) & n) != 0) {
-                powers.add((long) Math.pow(2, i));
-            }
+        double m = 1e9+7;
+        LinkedList<Integer> x = new LinkedList<>();
+        int c = 0;
+        while(n>0){
+           if((n&1) == 1)
+           x.add(c); // Adding power of 2 in the list , not the actual value 
+           c++;
+           n>>=1; 
+        }
+        
+        int sz = x.size();
+        for(int i=1;i<sz;i++){
+            x.set(i,x.get(i-1)+x.get(i));
         }
 
-        // Step 2: Process each query
-        for (int i = 0; i < queries.length; i++) {
-            int l = queries[i][0];
-            int r = queries[i][1];
-            long product = 1;
+        int[] res = new int[queries.length];
+        int i=0;
+        for(int[] q: queries){
 
-            // Compute the product in range [l, r]
-            for (int j = l; j <= r; j++) {
-                product = (product * powers.get(j)) % mod;
-            }
-
-            result[i] = (int) product;
+            int s = q[0]> 0 ? x.get(q[1])-x.get(q[0]-1) : x.get(q[1]);
+            res[i]= (int)(Math.pow(2,s)%m);
+            i++;
         }
-
-        return result;
+        return res;
     }
 }
