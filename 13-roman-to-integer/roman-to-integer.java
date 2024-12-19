@@ -12,7 +12,7 @@ class Solution {
         map.put('M',1000);
         for(int i=0;i<s.length();i++){
             int curr = map.get(s.charAt(i));
-            if(temp==0) temp=curr;
+            if(i==0) temp=curr;
             else if(curr > map.get(s.charAt(i-1))){
                 ans += curr - temp;
                 temp=0;
