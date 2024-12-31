@@ -2,7 +2,7 @@ class Solution {
     public boolean circularArrayLoop(int[] nums) {
         boolean[] visited = new boolean[nums.length]; // Track visited indices
         for (int i = 0; i < nums.length; i++) {
-            if (visited[i]) {
+            if (nums[i]==0) {
                 continue; // Skip if already processed
             }
 
@@ -40,6 +40,7 @@ class Solution {
                 if (next == -1 || visited[slow]) {
                     break;
                 }
+                nums[slow] = 0;
                 visited[slow] = true;
                 slow = next;
             }
