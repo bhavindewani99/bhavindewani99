@@ -1,6 +1,5 @@
 class Solution {
     public boolean circularArrayLoop(int[] nums) {
-        boolean[] visited = new boolean[nums.length]; // Track visited indices
         for (int i = 0; i < nums.length; i++) {
             if (nums[i]==0) {
                 continue; // Skip if already processed
@@ -37,11 +36,10 @@ class Solution {
             slow = i;
             while (true) {
                 int next = findNextIndex(nums, isForward, slow);
-                if (next == -1 || visited[slow]) {
+                if (next == -1 || nums[slow]==0) {
                     break;
                 }
                 nums[slow] = 0;
-                visited[slow] = true;
                 slow = next;
             }
         }
