@@ -34,12 +34,16 @@ class Solution {
             r--;
         }
 
-        long result = 0;
+        int result = 0;
         for(char z : s.toString().toCharArray()){
-            result = result*10 + (int)(z-'0');
-            if(result>Integer.MAX_VALUE) return -1;
+            int val = (z-'0');
+            if (result > Integer.MAX_VALUE / 10 || 
+            (result == Integer.MAX_VALUE / 10 && val > Integer.MAX_VALUE % 10)) {
+            return -1;
+    }
+            result = result*10 + val;
         }
 
-        return (int) result;
+        return result;
     }
 }
