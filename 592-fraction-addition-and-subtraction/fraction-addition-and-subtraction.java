@@ -23,10 +23,7 @@ class Solution {
             }
             if (isNegative) currNum *= -1;
 
-            // Skip the '/'
-            if (index < n && expression.charAt(index) == '/') {
-                index++;
-            }
+            index++;
 
             // Parse denominator
             while (index < n && Character.isDigit(expression.charAt(index))) {
@@ -39,7 +36,7 @@ class Solution {
         }
 
         // Simplify the result
-        int gcd = findGcd(Math.abs(num), Math.abs(den)); // Use absolute values for GCD
+        int gcd = Math.abs(findGcd(num, den)); // Use absolute values for GCD
         num /= gcd;
         den /= gcd;
 
