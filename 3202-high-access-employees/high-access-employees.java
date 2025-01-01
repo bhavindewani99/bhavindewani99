@@ -16,7 +16,6 @@ class Solution {
 
         for(Map.Entry<String, List<Integer>> entry : map.entrySet()){
             List<Integer> list = entry.getValue();
-            boolean flag = false;
             for(int i=0;i<list.size()-2;i++){
                 int cnt = 1;
                 int start_time = list.get(i);
