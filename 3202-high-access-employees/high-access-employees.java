@@ -16,13 +16,9 @@ class Solution {
 
         for(Map.Entry<String, List<Integer>> entry : map.entrySet()){
             List<Integer> list = entry.getValue();
+            if(list.size()<3) continue;
             for(int i=0;i<list.size()-2;i++){
-                int cnt = 1;
-                int start_time = list.get(i);
-                for(int j=i+1;j<i+3;j++){
-                    if(list.get(j)-start_time<60) cnt++;
-                }
-                if(cnt==3) {
+                if(list.get(i+2)-list.get(i)<60){
                     result.add(entry.getKey());
                     break;
                 }
