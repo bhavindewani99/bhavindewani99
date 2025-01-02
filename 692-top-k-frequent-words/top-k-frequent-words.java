@@ -6,26 +6,20 @@ class Solution {
         for(String word : words) map.put(word, map.getOrDefault(word, 0) +1);
 
         for(Map.Entry<String, Integer> entry : map.entrySet()){
-            if(pq.isEmpty() || pq.size()<k) pq.offer(new Pair(entry.getKey(), entry.getValue()));
-            else if(entry.getValue() > pq.peek().freq){
-                pq.poll();
-                pq.offer(new Pair(entry.getKey(), entry.getValue()));
-            }else if(entry.getValue() == pq.peek().freq && entry.getKey().compareTo(pq.peek().word) < 0){
-                pq.poll();
-                pq.offer(new Pair(entry.getKey(), entry.getValue()));
-            }
+            pq.offer(new Pair(entry.getKey(), entry.getValue()));
+            if(pq.size()>k) pq.poll();
         }
 
-        List<Pair> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         
-        while(!pq.isEmpty()) result.add(pq.poll());
+        while(!pq.isEmpty()) result.add(pq.poll().word);
 
-        Collections.sort(result, (a,b) -> a.freq==b.freq ? a.word.compareTo(b.word) : b.freq - a.freq);
+        Collections.reverse(result);
 
-        List<String> finalAns = new ArrayList<>();
-        for(Pair pair : result) finalAns.add(pair.word);
+        // List<String> finalAns = new ArrayList<>();
+        // for(Pair pair : result) finalAns.add(pair.word);
 
-        return finalAns;
+        return result;
 
     }
 
