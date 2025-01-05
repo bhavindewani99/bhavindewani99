@@ -1,30 +1,21 @@
 class Solution {
     public String breakPalindrome(String palindrome) {
         int n = palindrome.length();
-        if(n==1) return "";
-        int len = n/2;
+        if (n == 1) return ""; // A single-character palindrome cannot be broken
 
-        int index = len + 1;
+        char[] chars = palindrome.toCharArray();
 
-        for(int i=0;i<len;i++){
-            if(palindrome.charAt(i)!='a'){
-                index = i;
-                break;
+        // Iterate through the first half of the string
+        for (int i = 0; i < n / 2; i++) {
+            if (chars[i] != 'a') {
+                // Replace the first non-'a' character with 'a' and return the result
+                chars[i] = 'a';
+                return new String(chars);
             }
         }
 
-        System.out.println("Index is "+index);
-
-        StringBuilder sb = new StringBuilder(palindrome);
-
-        if (index == len + 1) {
-            
-            sb.setCharAt(n-1, (char)(palindrome.charAt(n-1) + 1));
-            return sb.toString();
-        }
-
-        sb.setCharAt(index, 'a');
-        return sb.toString();
-
+        // If all characters in the first half are 'a', change the last character
+        chars[n - 1] = 'b';
+        return new String(chars);
     }
 }
