@@ -35,7 +35,7 @@ class Solution {
                         water += currHeight - heightMap[x][y];
                         pq.offer(new Pair(x, y, currHeight));
                    } else{
-                        pq.offer(new Pair(x, y, Math.max(currHeight, heightMap[x][y])));
+                        pq.offer(new Pair(x, y, heightMap[x][y]));
                    }
                    visited[x][y] = true;
                 }
