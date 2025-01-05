@@ -1,7 +1,11 @@
 class Solution {
     public int[] sortByBits(int[] arr) {
         // Convert int[] to Integer[] for sorting with a comparator
-        Integer[] boxedArr = Arrays.stream(arr).boxed().toArray(Integer[]::new);
+        Integer[] boxedArr = new Integer[arr.length];
+
+        for(int i=0;i<arr.length;i++){
+            boxedArr[i]=  (arr[i]);
+        } 
 
         Arrays.sort(boxedArr, (a, b) -> {
             int cnt1 = countSetBits(a); // Custom bit count for 'a'
