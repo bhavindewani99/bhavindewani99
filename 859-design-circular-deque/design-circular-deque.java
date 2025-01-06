@@ -9,9 +9,9 @@ class MyCircularDeque {
         this.k = k;
         size = 0;
         head.next = tail;
-        head.prev = tail;
+        //head.prev = tail;
         tail.prev = head;
-        tail.next = head;
+        //tail.next = head;
         
     }
     
