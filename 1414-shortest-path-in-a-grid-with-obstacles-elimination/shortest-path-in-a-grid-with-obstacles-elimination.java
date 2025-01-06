@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int shortestPath(int[][] grid, int k) {
         int n = grid.length;
