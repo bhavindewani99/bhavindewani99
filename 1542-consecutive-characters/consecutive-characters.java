@@ -1,24 +1,22 @@
 class Solution {
     public int maxPower(String s) {
-        int result = 0;
-        int start = 0;
-        Map<Character, Integer> set = new HashMap<>();
-        int end = 0;
-
-        while(end < s.length() ){
-            char c = s.charAt(end);
-            set.put(c, set.getOrDefault(c, 0) +1);
-
-            while(set.size()>1){
-                set.put(s.charAt(start), set.get(s.charAt(start)) - 1);
-                if(set.get(s.charAt(start))==0) set.remove(s.charAt(start));
-                start++;
+        char prev=s.charAt(0);
+        int max=1;
+        int count=1;
+        for(int i=1;i<s.length();i++){
+            if(s.charAt(i)==prev){
+                count++;
+            }else{
+                if(max<count){
+                    max=count;
+                }
+                count=1;
+                prev=s.charAt(i);
             }
-
-            result = Math.max(result, end-start+1);
-            end++;
         }
-
-        return result;
+        if(max<count){
+            max=count;
+        }
+        return max;
     }
 }
