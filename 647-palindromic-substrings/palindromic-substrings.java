@@ -1,20 +1,26 @@
 class Solution {
     public int countSubstrings(String s) {
-        int result =0;
+        
+        int result = 0;
+
         for(int i=0;i<s.length();i++){
-            result += expand(s, i, i);
-            result += expand(s, i, i+1);
+            result += check(s, i, i);
+            result += check(s, i, i+1);
         }
+
         return result;
+
     }
 
-    private int expand(String s, int left, int right){
+    private int check(String s, int l, int r){
         int ans = 0;
-        while(left>=0 && right<s.length() && s.charAt(left)==s.charAt(right)){
+
+        while(l>=0 && r<s.length() && s.charAt(l)==s.charAt(r)){
             ans++;
-            left--;
-            right++;
+            l--;
+            r++;
         }
+
         return ans;
     }
 }
