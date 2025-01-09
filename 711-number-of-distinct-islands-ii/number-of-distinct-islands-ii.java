@@ -33,7 +33,7 @@ class Solution {
         }
         String ans = "";
         for (int[][] a : all){
-            Arrays.sort(a, Comparator.<int[]>comparingInt(o -> o[0]).thenComparingInt(o -> o[1]));
+            Arrays.sort(a, (x,y) -> x[0]==y[0] ? x[1]-y[1] : x[0]-y[0]);
             StringBuilder sb = new StringBuilder();
             for (int i = a.length-1; i >= 0; i--){
                 sb.append(String.format("(%d %d)", a[i][0]-a[0][0], a[i][1]-a[0][1]));
