@@ -7,13 +7,15 @@ class Solution {
     }
 
     private int tabulation(int n){
-        int[] dp = new int[n+1];
-        dp[0]=1;
-        dp[1] =1;
+        int zero = 1;
+        int one =1;
         for(int i=2;i<=n;i++){
-            dp[i] = dp[i-1] + dp[i-2];
+            int sum = zero + one;
+            zero = one;
+            one = sum;
+
         }
-        return dp[n];
+        return one;
 
     }
 
