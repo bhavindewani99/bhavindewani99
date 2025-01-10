@@ -6,7 +6,7 @@ class Solution {
         for(int i=0;i<time.length;i++){
             int remainder = time[i]%60;
             if(remainder==0) pairs+= map.getOrDefault(remainder, 0);
-            else pairs += map.getOrDefault(60-time[i]%60, 0);
+            else pairs += map.getOrDefault(60-remainder, 0);
             map.put(remainder, map.getOrDefault(remainder, 0) +1);
         }
 
