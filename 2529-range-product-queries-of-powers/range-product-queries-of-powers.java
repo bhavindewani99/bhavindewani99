@@ -40,26 +40,11 @@ class Solution {
             }
             
             // Compute 2^(sumOfExponents) modulo MOD
-            //long product = modularExponentiation(2, sumOfExponents, MOD);
             long product = findPower(2, sumOfExponents, MOD);
             results[resultIndex] = (int)product;
             resultIndex++;
         }
         return results;
-    }
-
-    // Helper method to perform modular exponentiation
-    private long modularExponentiation(long base, long exponent, long mod){
-        long result = 1;
-        base = base % mod;
-        while(exponent > 0){
-            if((exponent & 1) == 1){
-                result = (result * base) % mod;
-            }
-            base = (base * base) % mod;
-            exponent >>= 1;
-        }
-        return result;
     }
 
 
