@@ -11,14 +11,15 @@ class Solution {
             int currSquare = queue.peek()[0];
             int currMoves = queue.peek()[1];
             queue.poll();
+            if(currSquare == n*n) return currMoves;
 
             for(int i=1;i<=6;i++){
                 int nextSquare = currSquare + i;
                 int[] position = getPosition(nextSquare, n);
                 int r = position[0];
                 int c = position[1];
-                if(board[r][c]!=-1) nextSquare = board[r][c];
-                if(nextSquare == n*n) return currMoves +1;
+                if(r<n && c<n && board[r][c]!=-1) nextSquare = board[r][c];
+                //if(nextSquare == n*n) return currMoves +1;
                 if(!set.contains(nextSquare)){
                     set.add(nextSquare);
                     queue.offer(new int[]{nextSquare, currMoves+1});
