@@ -3,7 +3,7 @@ class Solution {
         int n = s.length();
         int[] count = new int[n + 1];
 
-        // Process shifts
+        
         for (int i = 0; i < shifts.length; i++) {
             int start = shifts[i][0], end = shifts[i][1];
             int direction = shifts[i][2] == 1 ? 1 : -1;
@@ -11,10 +11,9 @@ class Solution {
             if (end + 1 < count.length) count[end + 1] -= direction;
         }
 
-        // Prefix sum to calculate cumulative shifts
         for (int i = 1; i <= n; i++) count[i] += count[i - 1];
 
-        // Build result
+        
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < n; i++) {
             char c = s.charAt(i);
