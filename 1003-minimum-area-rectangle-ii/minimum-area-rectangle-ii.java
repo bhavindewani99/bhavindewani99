@@ -1,6 +1,3 @@
-import java.util.HashSet;
-import java.util.Set;
-
 class Solution {
     public double minAreaFreeRect(int[][] points) {
         Set<String> set = new HashSet<>();
