@@ -1,6 +1,27 @@
 class Solution {
     public int longestSubarray(int[] nums) {
 
+        // 2 pointers approach where we increase the window including one zero
+        int zeroIndex = -1;
+        int left = 0;
+        int result = 0;
+
+        for(int right =0;right<nums.length;right++){
+            if(nums[right]==0){
+                if(zeroIndex!=-1){
+                    left = zeroIndex + 1;
+                    zeroIndex = right;
+                }else{
+                    zeroIndex = right;
+                }
+            }
+            result = Math.max(result, right-left);
+        }
+        return result;
+    }
+
+    // brute force approach where we count number of ones form both the sides
+    private int bruteForce(int[] nums){
         int n = nums.length;
         int[] count = new int[n];
         int curr = 0;
