@@ -1,6 +1,8 @@
 class Solution {
     public int shortestBridge(int[][] grid) {
 
+        // first we marked the first island and add in the queue
+        // then we start bfs travesal from the current marked island and find the minimum
         int m = grid.length;
         int n = grid[0].length;
         boolean found = false;
@@ -22,15 +24,13 @@ class Solution {
         while(!queue.isEmpty()){
             Pair pair = queue.poll();
             int r = pair.r, c = pair.c, steps = pair.steps;
-
-            //if(grid[r][c]!=0) continue;
             for(int d=0;d<4;d++){
                 int x = directions[d][0] + r;
                 int y = directions[d][1] + c;
                 if(x>=0 && y>=0 && x<m && y<n && grid[x][y]!=-1){
                     System.out.print("yo ");
                     if(grid[x][y]==1) {
-                        result = Math.min(result, steps);
+                        return steps;
                     }else{
                         queue.offer(new Pair(x, y, steps+1));
                     }
