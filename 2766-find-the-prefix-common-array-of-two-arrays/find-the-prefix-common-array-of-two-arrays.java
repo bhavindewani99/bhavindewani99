@@ -8,9 +8,7 @@ class Solution {
 
         for(int i=0;i<n;i++){
             int prev = i==0 ? 0 : C[i-1];
-            if(A[i]==B[i]){
-                prev++;
-            }
+            if(A[i]==B[i]) prev++;
             if(bset.contains(A[i])) prev++;
             if(aset.contains(B[i])) prev++;
             aset.add(A[i]);
