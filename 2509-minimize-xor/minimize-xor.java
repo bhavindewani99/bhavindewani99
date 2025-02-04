@@ -1,31 +1,24 @@
-import java.util.*;
-
 class Solution {
     public int minimizeXor(int num1, int num2) {
-        int setBits = Integer.bitCount(num2); // Count number of 1s in num2
-
-        List<Integer> setBitPositions = new ArrayList<>();
-        int index = 0; // Bit positions are 0-based
-        int tempNum1 = num1;
-        while (tempNum1 > 0) {
-            if ((tempNum1 & 1) != 0) setBitPositions.add(index);
-            tempNum1 >>= 1;
-            index++;
-        }
-
+        int setBits = Integer.bitCount(num2); // Count 1s in num2
         int result = 0;
-        index = 0; // Start from the 0th bit
-        while (setBits > 0) {
-            int curr = 0;
-            if (!setBitPositions.isEmpty()) {
-                curr = 1 << setBitPositions.remove(setBitPositions.size() - 1);
-            } else {
-                while ((result & (1 << index)) != 0) index++; // Find next available bit
-                curr = 1 << index++;
+
+        // Step 1: Use bits from num1 where possible
+        for (int i = 31; i >= 0 && setBits > 0; i--) {
+            if ((num1 & (1 << i)) != 0) { // If bit is set in num1
+                result |= (1 << i);
+                setBits--;
             }
-            result |= curr;
-            setBits--;
         }
+
+        // Step 2: If more bits need to be set, set the smallest bits
+        for (int i = 0; i < 32 && setBits > 0; i++) {
+            if ((result & (1 << i)) == 0) { // If bit is NOT set
+                result |= (1 << i);
+                setBits--;
+            }
+        }
+
         return result;
     }
 }
