@@ -14,10 +14,7 @@ class Solution {
 
         if(index1==-1) return true;
         if(index2==-1) return false;
-        StringBuilder newS2 = new StringBuilder(s2);
-        newS2.setCharAt(index1, s2.charAt(index2));
-        newS2.setCharAt(index2, s2.charAt(index1));
-
-        return s1.equals(newS2.toString());
+        
+        return s1.charAt(index1)==s2.charAt(index2) && s1.charAt(index2)==s2.charAt(index1);
     }
 }
