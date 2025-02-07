@@ -1,32 +1,34 @@
 class Solution {
     public String simplifyPath(String path) {
-        List<String> res = new ArrayList<>();
+        Stack<String> stack = new Stack<>();
         int n = path.length();
-        for(int i=1;i<path.length();i++){
+        int index = 0;
+
+        while (index < n && path.charAt(index) == '/') index++; // Skip leading slashes
+
+        while (index < n) {
             StringBuilder curr = new StringBuilder();
-            int index = i;
-            while(index<n && path.charAt(index)!='/'){
+            while (index < n && path.charAt(index) != '/') {
                 curr.append(path.charAt(index++));
             }
-            if(curr.toString().equals("..")){
-                if(res.size()>0) res.removeLast();
-            }else if(!curr.toString().equals(".")){
-                res.add(curr.toString());
+
+            String currString = curr.toString();
+
+            if (currString.equals("..")) {
+                if (!stack.isEmpty()) stack.pop(); // Go one level up
+            } else if (!currString.equals(".") && !currString.isEmpty()) {
+                stack.add(currString); // Add valid directory name
             }
-            i=index;
-            while (i<n && path.charAt(i)=='/') {
-                i++;
-            }
-            i--;
+
+            while (index < n && path.charAt(index) == '/') index++; // Skip extra slashes
         }
-        StringBuilder temp = new StringBuilder();
-        for(int i=0;i<res.size();i++){
-            temp.append(res.get(i));
-            if(i!=res.size()-1)
-            temp.append("/");
+
+        // Construct the result path
+        StringBuilder result = new StringBuilder();
+        for (String dir : stack) {
+            result.append("/").append(dir);
         }
-        if(temp.length()==0) temp.append('/');
-        if(temp.charAt(0)!='/') temp.insert(0, '/');
-        return temp.toString();
+
+        return result.length() > 0 ? result.toString() : "/";
     }
 }
