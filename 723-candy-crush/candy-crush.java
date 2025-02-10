@@ -54,9 +54,6 @@ class Solution {
                 if (board[r][c] == 0) {
                     lowestZero = Math.max(lowestZero, r);
                 } else if (lowestZero >= 0) {
-                    // int temp = board[r][c];
-                    // board[r][c] = board[lowestZero][c];
-                    // board[lowestZero][c] = temp;
                     board[lowestZero][c] = board[r][c];
                     board[r][c] = 0;
                     lowestZero--;
