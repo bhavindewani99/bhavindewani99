@@ -1,13 +1,15 @@
 class SeatManager {
 
     PriorityQueue<Integer> pq;
+    int availableSeat;
     public SeatManager(int n) {
         pq = new PriorityQueue<>();
-        for(int i=1;i<=n;i++) pq.offer(i);
+        availableSeat = 1;
     }
     
     public int reserve() {
-        return pq.poll();
+        if(!pq.isEmpty()) return pq.poll();
+        return availableSeat++;
     }
     
     public void unreserve(int seatNumber) {
