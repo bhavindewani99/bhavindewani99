@@ -1,28 +1,26 @@
 class Solution {
     public int minInsertions(String s) {
         
-        Stack<Character> stack = new Stack<>();
+        int open = 0;
         int result = 0;
         int index = 0;
         int n = s.length();
 
         while (index<n) {
             char c = s.charAt(index);
-            if(c=='(') stack.add(c);
+            if(c=='(') open++;
             else{
                 if(index + 1<n && s.charAt(index+1)==')') {
                     index++;
                 }else{
                     result++;
                 }
-                if(!stack.isEmpty()) stack.pop();
-                else{
-                    result++;
-                }
+                if(open>0) open--;
+                else result++;
             }
             index++;
         }
-        result += stack.size()*2;
+        result += open*2;
         return result;
     }
 }
