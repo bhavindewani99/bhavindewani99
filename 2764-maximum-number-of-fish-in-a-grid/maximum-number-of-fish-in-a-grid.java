@@ -10,8 +10,8 @@ class Solution {
             for(int j=0;j<n;j++){
                 if(visited[i][j]==false && grid[i][j]>0){
                     int[] curr = {0};
-                    dfs(i, j, grid, curr, m, n, visited);
-                    result = Math.max(result, curr[0]);
+                    
+                    result = Math.max(result, dfs(i, j, grid, curr, m, n, visited));
                 }
             }
         }
@@ -19,14 +19,15 @@ class Solution {
         return result;
     }
 
-    private void dfs(int r, int c, int[][] grid, int[] curr, int m, int n, boolean[][] visited){
-        if(r<0 || c<0 || r>=m || c>=n || grid[r][c]==0 || visited[r][c]==true) return;
-
+    private int dfs(int r, int c, int[][] grid, int[] curr, int m, int n, boolean[][] visited){
+        if(r<0 || c<0 || r>=m || c>=n || grid[r][c]==0 || visited[r][c]==true) return 0;
+        int total = grid[r][c];
         visited[r][c] = true;
-        curr[0] += grid[r][c];
-        dfs(r+1, c, grid, curr, m, n, visited);
-        dfs(r, c+1, grid, curr, m, n, visited);
-        dfs(r-1, c, grid, curr, m, n, visited);
-        dfs(r, c-1, grid, curr, m, n, visited);
+        //curr[0] += grid[r][c];
+        total += dfs(r+1, c, grid, curr, m, n, visited);
+        total += dfs(r, c+1, grid, curr, m, n, visited);
+        total += dfs(r-1, c, grid, curr, m, n, visited);
+        total += dfs(r, c-1, grid, curr, m, n, visited);
+        return total;
     }
 }
