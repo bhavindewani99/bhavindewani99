@@ -19,7 +19,7 @@ class Solution {
             k--;
             if(i+1<nums1.length) pq.offer(new int[]{i+1, j, nums1[i+1] + nums2[j]});
             if(j+1<nums2.length) pq.offer(new int[]{i, j+1, nums1[i] + nums2[j+1]});
-            if(i+1<nums1.length && j+1 < nums2.length) pq.offer(new int[]{i+1, j+1, nums1[i+1] + nums2[j+1]});
+            //if(i+1<nums1.length && j+1 < nums2.length) pq.offer(new int[]{i+1, j+1, nums1[i+1] + nums2[j+1]});
         }
         return result;
     }
