@@ -1,6 +1,5 @@
-# Write your MySQL query statement below
 SELECT DISTINCT c.title
-FROM TVProgram tv
-JOIN Content c
+FROM Content c
+JOIN TVProgram tv
 ON tv.content_id = c.content_id
-WHERE c.Kids_content = 'Y' AND c.content_type = 'Movies' AND YEAR(tv.program_date) = 2020 AND MONTH(tv.program_date)=6;
+WHERE program_date BETWEEN '2020-06-01' AND '2020-06-30' AND c.Kids_content = 'Y' AND content_type = 'Movies';
