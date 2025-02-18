@@ -1,6 +1,6 @@
 class Solution {
     public String minWindow(String s, String t) {
-        if (s.isEmpty() || t.isEmpty()) return "";
+        //if (s.isEmpty() || t.isEmpty()) return "";
 
         Map<Character, Integer> countT = new HashMap<>();
         for (char c : t.toCharArray()) {
