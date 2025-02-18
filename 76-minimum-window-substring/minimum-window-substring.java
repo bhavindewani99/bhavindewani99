@@ -1,13 +1,12 @@
 class Solution {
     public String minWindow(String s, String t) {
-        //if (s.isEmpty() || t.isEmpty()) return "";
 
-        Map<Character, Integer> countT = new HashMap<>();
+        Map<Character, Long> countT = new HashMap<>();
         for (char c : t.toCharArray()) {
-            countT.put(c, countT.getOrDefault(c, 0) + 1);
+            countT.put(c, countT.getOrDefault(c, 0l) + 1);
         }
 
-        Map<Character, Integer> countS = new HashMap<>();
+        Map<Character, Long> countS = new HashMap<>();
         int have = 0;
         int need = countT.size();
         int left = 0;
@@ -16,9 +15,9 @@ class Solution {
 
         for (int right = 0; right < s.length(); right++) {
             char c = s.charAt(right);
-            countS.put(c, countS.getOrDefault(c, 0) + 1);
+            countS.put(c, countS.getOrDefault(c, 0l) + 1);
 
-            if (countT.containsKey(c) && countS.get(c).intValue() == countT.get(c).intValue()) {
+            if (countT.containsKey(c) && Long.compare(countS.get(c), countT.get(c)) == 0) {
                 have++;
             }
 
