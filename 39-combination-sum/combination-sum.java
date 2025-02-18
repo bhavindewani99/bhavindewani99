@@ -6,16 +6,14 @@ class Solution {
     }
 
      private void recursion(int[] candidates, int target, int index, List<Integer> temp, List<List<Integer>> ans) {
-        if (target < 0 || index == candidates.length) {
-            return;
-        }
-        
         if (target == 0) {
             ans.add(new ArrayList<>(temp));
             return;
         }
         
-        
+        if (target < 0 || index == candidates.length) {
+            return;
+        }
 
         // take
         temp.add(candidates[index]);
