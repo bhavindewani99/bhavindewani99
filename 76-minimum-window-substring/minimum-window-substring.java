@@ -1,32 +1,41 @@
 class Solution {
     public String minWindow(String s, String t) {
+        if (s.isEmpty() || t.isEmpty()) return "";
 
-        int l=0;
-        int r=0;
-        int minLen = Integer.MAX_VALUE;
-        int startIndex = -1;
-        int n = s.length();
-        int m = t.length();
-        int cnt = m;
-        int[] hash = new int[126];
-
-        for(int i=0;i<m;i++) hash[t.charAt(i)]++;
-        while(r<n){
-            char c = s.charAt(r);
-            if(hash[c]>0) cnt--;
-            hash[c]--;
-            while(cnt==0){
-                if(r-l+1<minLen){
-                    minLen = r-l+1;
-                    startIndex=l;
-                }
-                hash[s.charAt(l)]++;
-                if(hash[s.charAt(l)]>0) cnt++;
-                l++;
-            }
-            r++;
+        Map<Character, Integer> countT = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            countT.put(c, countT.getOrDefault(c, 0) + 1);
         }
 
-        return startIndex==-1 ? "" : s.substring(startIndex,startIndex+minLen);
+        Map<Character, Integer> countS = new HashMap<>();
+        int have = 0;
+        int need = countT.size();
+        int left = 0;
+        int minLength = Integer.MAX_VALUE;
+        String result = "";
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+            countS.put(c, countS.getOrDefault(c, 0) + 1);
+
+            if (countT.containsKey(c) && countS.get(c).intValue() == countT.get(c).intValue()) {
+                have++;
+            }
+
+            while (have == need) {
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
+                    result = s.substring(left, right + 1);
+                }
+                char leftChar = s.charAt(left);
+                countS.put(leftChar, countS.get(leftChar) - 1);
+                if (countT.containsKey(leftChar) && countS.get(leftChar) < countT.get(leftChar)) {
+                    have--;
+                }
+                left++;
+            }
+        }
+
+        return result;
     }
 }
