@@ -41,7 +41,7 @@ class Trie{
                 result = result || containsWord(word, node.getNode((char)(i+'a')), index+1);
             }
         }else{
-            result = result || containsWord(word, node.getNode(word.charAt(index)), index+1);
+            result = containsWord(word, node.getNode(word.charAt(index)), index+1);
         }
         return result;
     }
