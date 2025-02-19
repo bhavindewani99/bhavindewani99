@@ -54,7 +54,7 @@ class Solution {
     }
 
     private void dfs(int r, int c, boolean[][] visited, Set<String> result, StringBuilder currString, int n, int m, Node node, char[][] board){
-        if(r<0 || c<0 || r>=n || c>=m || visited[r][c] || node.containsNode(board[r][c])==false) return;
+        if(r<0 || c<0 || r>=n || c>=m || visited[r][c] || node.containsNode(board[r][c])==false || node==null ) return;
         
         visited[r][c] = true;
         node = node.getNode(board[r][c]);
