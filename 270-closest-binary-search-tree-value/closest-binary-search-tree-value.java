@@ -15,28 +15,23 @@
  */
 class Solution {
     public int closestValue(TreeNode root, double target) {
-        double[] diff = {Double.MAX_VALUE};
-        int[] ans = {Integer.MAX_VALUE};
-        recursion(root, target, diff, ans);
-        return ans[0];
+        double[] arr= {Double.MAX_VALUE, -1}; // difference, result
+        dfs(root, target, arr);
+        return (int) (arr[1]);
     }
 
-    private void recursion(TreeNode root, double target, double[] diff, int[] ans){
-        if(root!=null){
-            if(Math.abs(target-root.val)== diff[0]){
-                if(ans[0]>root.val)
-                ans[0]=root.val;
-            }else if(Math.abs(target-root.val)< diff[0]){
-                ans[0]=root.val;
-                diff[0] = Math.abs(target-root.val);
-                if(diff[0]==0) return;
-            }
-            if(root.val>target){
-                recursion(root.left, target, diff, ans);
-            }else{
-                recursion(root.right, target, diff, ans);
-            }
-            
+    private void dfs(TreeNode root, double target, double[] arr){
+        if(root==null) return;
+        double currDiff = Math.abs(target-root.val);
+        if(currDiff < arr[0]){
+            arr[0] = currDiff;
+            arr[1] = root.val;
+        }else if(currDiff == arr[0]){
+            arr[1] = Math.min(arr[1], root.val);
         }
+        if(root.val * 1.0 ==target){
+            return;
+        }else if(root.val > target) dfs(root.left, target, arr);
+        else dfs(root.right, target, arr);
     }
 }
