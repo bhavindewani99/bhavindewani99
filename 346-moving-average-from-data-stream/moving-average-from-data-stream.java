@@ -1,35 +1,20 @@
 class MovingAverage {
-    int size;
-    Queue<Integer> queue;
-    int n;
-    double avg;
+
+    double sum, n;
+    Queue<Double> queue;
     public MovingAverage(int size) {
-       this.size =size;
-       queue = new LinkedList<>();
-       n = 0;
-       avg  =0; 
+        this.n = size;
+        sum =0;
+        queue = new LinkedList<>();
     }
     
     public double next(int val) {
-        if(n==0){
-            avg = val;
-            n=1;
-            queue.offer(val);
-            return avg;
+        if(queue.size()==n){
+            sum -= queue.poll();
         }
-        if(n<size){
-            double sum = avg * n + val;
-            n++;
-            avg = sum/n;
-            queue.offer(val);
-            return avg;
-        }
-        double sum = avg*n - queue.poll() + val;
-        avg = sum/n;
-        queue.offer(val);
-        return avg;
-        
-
+        sum += val;
+        queue.offer(val*1.0);
+        return sum/queue.size();
     }
 }
 
