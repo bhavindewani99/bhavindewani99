@@ -1,34 +1,35 @@
 class Solution {
     public int minKnightMoves(int x, int y) {
-        x = Math.abs(x);
-        y = Math.abs(y);
-        int[][] directions = {{-2,1},{-2,-1},{-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2}};
-        Queue<int[]> queue = new LinkedList<>(); // x, y
-        int distance = 0;
-        queue.offer(new int[]{0,0});
-        Set<String> set = new HashSet<>();
-        set.add(0+"^"+0);
+        
+        int[][] offsets = {{1, 2}, {2, 1}, {2, -1}, {1, -2},
+                {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}};
 
-        while(!queue.isEmpty()){
-            int n = queue.size();
-            for(int i=0;i<n;i++){
-                int r = queue.peek()[0];
-                int c = queue.peek()[1];
-                queue.poll();
-                if(r==x && c==y) return distance;
-                for(int k = 0;k<directions.length;k++){
-                    int row = r + directions[k][0];
-                    int col = c + directions[k][1];
-                    int[] curr = {row, col};
-                    if(row>=-2 && col>=-2 && set.contains(row+"^"+col)==false){
-                        queue.offer(curr);
-                        set.add(row+"^"+col);
+        boolean[][] visited = new boolean[607][607];
+
+        Deque<int[]> queue = new LinkedList<>();
+        queue.addLast(new int[]{0, 0});
+        int steps = 0;
+
+        while (queue.size() > 0) {
+            int currLevelSize = queue.size();
+            
+            for (int i = 0; i < currLevelSize; i++) {
+                int[] curr = queue.removeFirst();
+                if (curr[0] == x && curr[1] == y) {
+                    return steps;
+                }
+
+                for (int[] offset : offsets) {
+                    int[] next = new int[]{curr[0] + offset[0], curr[1] + offset[1]};
+                    if (!visited[next[0] + 302][next[1] + 302]) {
+                        visited[next[0] + 302][next[1] + 302] = true;
+                        queue.addLast(next);
                     }
                 }
-            }   
-            distance++;
+            }
+            steps++;
         }
-        return -1;
-
+        // move on to the next level
+        return steps;
     }
 }
