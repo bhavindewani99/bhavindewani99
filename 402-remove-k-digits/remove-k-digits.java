@@ -10,7 +10,7 @@ class Solution {
                 stack.setLength(stack.length() - 1);
                 k--;
             }
-            stack.append(digit); // Push current digit onto the stack.
+            stack.append(digit);
         }
 
         // If there are still digits to remove, remove from the end of the result.
