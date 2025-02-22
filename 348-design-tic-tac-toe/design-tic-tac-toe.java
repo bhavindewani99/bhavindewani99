@@ -1,23 +1,32 @@
 class TicTacToe {
+
+    int n, diagonal, antidiagonal, turnVal;
     int[] rows, cols;
-    int diagonal, antiDiagonal,n;
     public TicTacToe(int n) {
+        this.n=n;
         rows = new int[n];
-        cols = new int[n];
+        cols=new int[n];
         diagonal = 0;
-        antiDiagonal = 0;
-        this.n = n;
+        antidiagonal = 0;
+        turnVal = 0;
+
     }
     
     public int move(int row, int col, int player) {
-        int currPlayer = player ==1 ? 1 : -1;
-        rows[row] += currPlayer;
-        cols[col] += currPlayer;
-        if(row==col) diagonal += currPlayer;
-        if(row == n - col -1) antiDiagonal+=currPlayer;
-        if(Math.abs(rows[row])==n || Math.abs(cols[col])==n || Math.abs(diagonal)==n || Math.abs(antiDiagonal)==n) return player;
-        return 0;
+        int currValue = turnVal%2==0 ? 1 : -1;
+        turnVal++;
+        rows[row] += currValue;
+        cols[col] += currValue;
+        if(row==col) diagonal+= currValue;
+        if(row+col==n-1) antidiagonal += currValue;
 
+        for(int i=0;i<n;i++){
+            if(n==Math.abs(rows[i]) || n==Math.abs(cols[i])) return player;
+        }
+
+        if(n==Math.abs(diagonal) || n==Math.abs(antidiagonal)) return player;
+
+        return 0;
     }
 }
 
