@@ -3,7 +3,7 @@ public class Solution {
         int left = 0, right = nums.length - 1;
         Random rand = new Random();
         while (true) {
-            int pivot_index = left + rand.nextInt(right - left + 1);
+            int pivot_index = (left + right)/2;
             int new_pivot_index = partition(nums, left, right, pivot_index);
             if (new_pivot_index == nums.length - k) {
                 return nums[new_pivot_index];
