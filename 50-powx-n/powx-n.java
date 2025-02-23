@@ -2,7 +2,7 @@ class Solution {
     public double myPow(double x, int n) {
         double ans;
         if(n<0){
-            ans=1/cal(x,-n);
+            ans=1/cal(x,n);
         }else{
             ans=cal(x,n);
         }
