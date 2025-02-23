@@ -23,7 +23,6 @@ class Solution {
                 if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==0){
                     grid[r][c] =1;
                     pq.offer(new Pair(r,c,1+dist));
-                    //if(r==n-1 && c==m-1) return 1+dist;
                 }
             }
         }
