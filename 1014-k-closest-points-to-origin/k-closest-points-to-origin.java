@@ -10,13 +10,4 @@ class Solution {
 
         return result;
     }
-
-    class Pair{
-        int val;
-        int[] arr;
-        Pair(int val, int[] arr){
-            this.val = val;
-            this.arr = arr;
-        }
-    }
 }
