@@ -22,7 +22,7 @@ class Solution {
 
     private void recursion(TreeNode root, int level, List<Integer> res){
         if(root!=null){
-            if(level>= res.size()){
+            if(level== res.size()){
                 res.add(root.val);
             }else{
                 res.set(level,root.val);
