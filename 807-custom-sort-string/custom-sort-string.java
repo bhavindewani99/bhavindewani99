@@ -1,29 +1,26 @@
 class Solution {
     public String customSortString(String order, String s) {
-        Map<Character, Integer> map = new HashMap<>();
-        StringBuilder res = new StringBuilder();
+        
+        int[] freq = new int[26];
+        StringBuilder result = new StringBuilder();
 
-        for(char c : s.toCharArray()){
-            if(!map.containsKey(c)) map.put(c, 0);
-            map.put(c, map.get(c)+1);
+        for(char c : s.toCharArray()) freq[c-'a']++;
+
+        for(char c: order.toCharArray()){
+            while(freq[c-'a']>0){
+                result.append(c);
+                freq[c-'a']--;
+            } 
         }
 
-        for(char c : order.toCharArray()){
-            if(map.containsKey(c)){
-                for(int k=0;k<map.get(c);k++){
-                    res.append(c);
-                }
-                map.remove(c);
+        for(int i=0;i<26;i++){
+            while(freq[i]>0){
+                result.append((char) (i+'a'));
+                freq[i]--;
             }
         }
 
-        for(Map.Entry<Character, Integer> entry : map.entrySet()){
-            for(int k=0;k<entry.getValue();k++){
-                res.append(entry.getKey());
-            }
-        }
-        return res.toString();
-
+        return result.toString();
 
     }
 }
