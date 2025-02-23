@@ -22,24 +22,16 @@ class Solution {
 
         while(i<n){
             char c = s.charAt(i);
-            if(c=='-'){
-                int num =0;
-                i++;
-                while(i<n && Character.isDigit(s.charAt(i))){
-                    num = num * 10 + (s.charAt(i)-'0');
-                    i++;
-                }
-                i--;
-                TreeNode node = new TreeNode(-num);
-                stack.add(node);
-            }else if(Character.isDigit(c)){
+            if(c=='-' || Character.isDigit(c)){
+                int sign = c=='-' ? -1 : 1;
+                if(sign==-1) i++;
                 int num =0;
                 while(i<n && Character.isDigit(s.charAt(i))){
                     num = num * 10 + (s.charAt(i)-'0');
                     i++;
                 }
                 i--;
-                TreeNode node = new TreeNode(num);
+                TreeNode node = new TreeNode(num*sign);
                 stack.add(node);
             }else if(c==')'){
                 TreeNode node = stack.pop();
