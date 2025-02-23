@@ -22,14 +22,13 @@ class Solution {
         while(!queue.isEmpty()){
             int n = queue.size();
             if(currLevel==k) break;
-            currLevel++;
             for(int i=0;i<n;i++){
                 TreeNode node = queue.poll();
-                //visited.add(node);
                 if(node.left!=null && visited.add(node.left)) queue.offer(node.left);
                 if(node.right!=null && visited.add(node.right)) queue.offer(node.right);
                 if(parent.containsKey(node) && visited.add(parent.get(node))) queue.offer(parent.get(node));
             }
+            currLevel++;
         }
 
         while(!queue.isEmpty()) res.add(queue.poll().val);
