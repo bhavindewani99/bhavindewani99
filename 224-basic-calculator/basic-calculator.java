@@ -21,6 +21,7 @@ class Solution {
                 stack.add(sign);
                 sign=1;
                 result = 0;
+                number=0;
             }else if(c==')'){
                 result = result + sign * number;
                 number = 0;
