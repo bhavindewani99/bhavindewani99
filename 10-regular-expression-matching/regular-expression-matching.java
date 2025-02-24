@@ -1,29 +1,35 @@
 class Solution {
     public boolean isMatch(String s, String p) {
-        Map<String,Boolean> map = new HashMap<>();
-        return recursion(s, 0, p, 0, map);
+        Map<String, Boolean> memo = new HashMap<>();
+        return isMatchRecursive(s, 0, p, 0, memo);
     }
 
+    private boolean isMatchRecursive(String s, int i, String p, int j, Map<String, Boolean> memo) {
+        
+        if (i == s.length() && j == p.length()) return true;
+        
+        if (j == p.length()) return false;
 
-    private boolean recursion(String s, int i, String p, int j,Map<String,Boolean> map){
-        if(i==s.length() && j>=p.length()) return true;
-        if(j>=p.length()) return false;
+        // Generate a key for memoization
+        String key = i + "," + j;
+        if (memo.containsKey(key)) return memo.get(key);
 
-        String key = i + "#" + j;
-        if(map.containsKey(key)) return map.get(key);
+        // Check if the current characters match or if pattern character is '.'
+        boolean isFirstMatch = (i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'));
 
-        boolean match = (i<s.length() && (s.charAt(i)==p.charAt(j) || p.charAt(j)=='.'));
-        if(j+1 < p.length() && p.charAt(j+1)=='*'){
-            boolean res = recursion(s, i, p, j+2,map) || (match && recursion(s, i+1, p, j,map));
-            map.put(key, res);
-            return res;
+        boolean result;
+
+        // Check for '*' in the pattern
+        if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
+            // Try skipping the '*' or use it to match multiple preceding elements
+            result = isMatchRecursive(s, i, p, j + 2, memo) || (isFirstMatch && isMatchRecursive(s, i + 1, p, j, memo));
+        } else {
+            // Proceed normally if characters match
+            result = isFirstMatch && isMatchRecursive(s, i + 1, p, j + 1, memo);
         }
-        if(match){
-            boolean res = recursion(s, i+1, p, j+1,map);
-            map.put(key, res);
-            return res;
-        }
-        map.put(key, false);
-        return false;
+
+        // Memoize the result
+        memo.put(key, result);
+        return result;
     }
 }
