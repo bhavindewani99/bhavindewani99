@@ -28,7 +28,7 @@ class Solution {
                 }
                 char leftChar = s.charAt(left);
                 countS.put(leftChar, countS.get(leftChar) - 1);
-                if (countT.containsKey(leftChar) && countS.get(leftChar) < countT.get(leftChar)) {
+                if (countT.containsKey(leftChar) && Long.compare(countS.get(leftChar), countT.get(leftChar))<0) {
                     have--;
                 }
                 left++;
