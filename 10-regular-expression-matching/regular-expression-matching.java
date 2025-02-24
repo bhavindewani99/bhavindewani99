@@ -10,14 +10,13 @@ class Solution {
         
         if (j == p.length()) return false;
 
-        // Generate a key for memoization
         String key = i + "," + j;
         if (memo.containsKey(key)) return memo.get(key);
 
         // Check if the current characters match or if pattern character is '.'
         boolean isFirstMatch = (i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'));
 
-        boolean result;
+        boolean result = false;
 
         // Check for '*' in the pattern
         if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
