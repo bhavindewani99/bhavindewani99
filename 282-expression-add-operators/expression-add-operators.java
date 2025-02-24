@@ -16,7 +16,7 @@ class Solution {
             if(i != idx && num.charAt(idx)=='0') return;
             int len = sb.length();
             long n = Long.parseLong(num.substring(idx, i+1));
-            if(idx==0){
+            if(sb.length()==0){
                 backtrack(ans,sb.append(n),target,num,n,n,i+1);
                 sb.setLength(len);
             }else{
