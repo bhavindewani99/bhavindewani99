@@ -3,6 +3,8 @@ class Solution {
         
         // So to findout exactly k we will use technique like atleast k and atleast k+1
         // so if we take difference of atleast k and atleast k+1 we get exactly k
+        // So for atleast k concept is if we found a substring with atleast k and all vowels
+        // we can make substring possible till the end length so if we found substring then we add length minus current pointer
 
         return countSubString(word, k) - countSubString(word, k+1);
 
