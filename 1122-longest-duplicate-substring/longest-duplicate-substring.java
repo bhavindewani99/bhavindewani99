@@ -21,14 +21,12 @@ class Solution {
         long base = 31, mod = (long) 1e9 + 7, hash = 0, pow = 1;
         Map<Long, Integer> map = new HashMap<>();
 
-        // Precompute base^(length-1) for rolling hash
-        for (int i = 1; i < length; i++) {
-            pow = (pow * base) % mod;
-        }
 
         // Compute initial hash for the first "length" characters
         for (int i = 0; i < length; i++) {
             hash = (hash * base + (s.charAt(i) - 'a')) % mod;
+            if(i>0)
+            pow = (pow * base) % mod;
         }
         map.put(hash, 0);
 
