@@ -1,3 +1,7 @@
+
+
+import static java.lang.Math.random;
+
 class Solution {
     
     int[] cumSum;
@@ -12,7 +16,8 @@ class Solution {
     }
     
     public int pickIndex() {
-        int random = (int) (Math.random() * totalSum);
+        Random randomObj = new Random();
+        int random = (int) randomObj.nextInt(totalSum);
         int low = 0;
         int high = cumSum.length-1;
         int result = -1;
