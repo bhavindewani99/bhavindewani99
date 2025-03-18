@@ -13,8 +13,7 @@ class Solution {
     public int pick(int target) {
         Pair pair = map.get(target);
         int res = pair.indexes.get(pair.pointer);
-        pair.pointer++;
-        if(pair.pointer==pair.indexes.size()) pair.pointer=0;
+        pair.pointer = (pair.pointer+1) % pair.indexes.size();
         return res;
     }
     
