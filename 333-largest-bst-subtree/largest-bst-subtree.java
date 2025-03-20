@@ -26,7 +26,7 @@ class Solution {
 
         // If left or right subtree is not a BST, current subtree cannot be a BST
         if (!leftPair.isBST || !rightPair.isBST || root.val <= leftPair.maxVal || root.val >= rightPair.minVal) {
-            return new Pair(0, 0, Math.max(leftPair.maxLargest, rightPair.maxLargest), false);
+            return new Pair(Integer.MAX_VALUE, Integer.MIN_VALUE, Math.max(leftPair.maxLargest, rightPair.maxLargest), false);
         }
 
         // Current subtree is a valid BST
