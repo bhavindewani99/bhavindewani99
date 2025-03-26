@@ -32,6 +32,6 @@ class Solution {
         if(root.val * 1.0 ==target){
             return;
         }else if(root.val > target) dfs(root.left, target, arr);
-        else dfs(root.right, target, arr);
+        dfs(root.right, target, arr);
     }
 }
