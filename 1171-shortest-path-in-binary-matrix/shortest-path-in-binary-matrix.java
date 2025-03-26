@@ -1,41 +1,31 @@
 class Solution {
     public int shortestPathBinaryMatrix(int[][] grid) {
         
-        int n = grid.length;
-        int m = grid[0].length;
-        if(grid[0][0]==1 || grid[n-1][m-1]==1) return -1;
-        Queue<Pair> pq = new LinkedList<>();
+        
+        int m = grid.length, n = grid[0].length;
 
-        int[] rows = {-1,-1,0,1,1,1,0,-1};
-        int[] cols = {0,1,1,1,0,-1,-1,-1};
+        if(grid[0][0]!=0 || grid[m-1][n-1]!=0) return -1;
 
-        pq.offer(new Pair(0,0,1));
+        int[][] directions = {{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1}};
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0,0,1});
 
-        while(!pq.isEmpty()){
-            int x = pq.peek().x;
-            int y = pq.peek().y;
-            int dist = pq.peek().dist;
-            if(x==n-1 && y==m-1) return dist;
-            pq.poll();
-            for(int i=0;i<8;i++){
-                int r = x + rows[i];
-                int c = y + cols[i];
-                if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==0){
-                    grid[r][c] =1;
-                    pq.offer(new Pair(r,c,1+dist));
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for(int i=0;i<len;i++){
+                int[] curr = queue.poll();
+                int r = curr[0], c= curr[1], dist = curr[2];
+                if(r==m-1 && c==n-1) return dist;
+
+                for(int d=0;d<8;d++){
+                    int x = r + directions[d][0], y = c + directions[d][1];
+                    if(x>=0 && y>=0 && x<m && y<n && grid[x][y]==0){
+                        grid[x][y]=1;
+                        queue.offer(new int[]{x, y, dist + 1});
+                    }
                 }
             }
         }
         return -1;
-
-    }
-
-    class Pair{
-        int x,y,dist;
-        Pair(int x, int y, int dist){
-            this.x = x;
-            this.y = y;
-            this.dist = dist;
-        }
     }
 }
