@@ -6,8 +6,7 @@ class Solution {
     }
 
     private void recursion(String s, StringBuilder curr, int index, int used, List<String> res){
-        //if(used>4) return;
-        if(index>=s.length()){
+        if(index==s.length()){
             if(used==4) res.add(curr.toString());
             return;
         }
