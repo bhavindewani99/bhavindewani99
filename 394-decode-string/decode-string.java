@@ -25,9 +25,10 @@ class Solution {
             }
         }
 
-        StringBuilder result = new StringBuilder();
+        String result = "";
+
         while (!stack.isEmpty()) {
-            result.insert(0, stack.pop());
+            result= stack.pop() + result;
         }
 
         return result.toString();
