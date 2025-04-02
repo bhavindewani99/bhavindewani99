@@ -7,12 +7,10 @@ class Solution {
             if(s.charAt(i)==prev){
                 count++;
             }else{
-                if(max<count){
-                    max=count;
-                }
                 count=1;
-                prev=s.charAt(i);
             }
+            prev=s.charAt(i);
+            max = Math.max(max, count);
         }
         if(max<count){
             max=count;
