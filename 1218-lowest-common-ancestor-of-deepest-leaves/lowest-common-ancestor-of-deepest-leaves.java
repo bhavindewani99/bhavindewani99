@@ -14,26 +14,23 @@
  * }
  */
 class Solution {
+    TreeNode result;
+    int maxHeight = 0;
     public TreeNode lcaDeepestLeaves(TreeNode root) {
-
-        Map<TreeNode, Integer> map = new HashMap<>();
-        findHeight(root, map);
-
-        while(root!=null){
-            int leftHeight = root.left==null ? -1 : map.get(root.left);
-            int rightHeight = root.right==null ? -1 : map.get(root.right);
-            if(leftHeight == rightHeight) return root;
-            if(leftHeight > rightHeight) root = root.left;
-            else root=root.right;
-        }
-        return null;
+        findNode(root, 0);
+        return result;
     }
 
-    public int findHeight(TreeNode root, Map<TreeNode, Integer> map){
-        if(root==null) return 0;
-        int left = findHeight(root.left, map);
-        int right = findHeight(root.right, map);
-        map.put(root, 1 + Math.max(left, right));
-        return 1 + Math.max(left, right);
+    private int findNode(TreeNode root, int height){
+        if(root == null) return height;
+
+        int leftHeight = findNode(root.left, height+1);
+        int rightHeight = findNode(root.right, height+1);
+
+        if(leftHeight==rightHeight && leftHeight >= maxHeight){
+            maxHeight = leftHeight;
+            result = root;
+        }
+        return Math.max(leftHeight, rightHeight);
     }
 }
