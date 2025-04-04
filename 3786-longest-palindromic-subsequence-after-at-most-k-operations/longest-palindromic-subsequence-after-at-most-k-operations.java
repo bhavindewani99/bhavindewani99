@@ -11,9 +11,6 @@ class Solution {
 
         if(dp[i][j][k] != null) return dp[i][j][k];
 
-        int skipLeft = recursion(i+1, j, k, s, dp);
-        int skipRight = recursion(i, j-1, k, s, dp);
-
         int difference = Math.abs(s.charAt(i)-s.charAt(j));
         difference = Math.min(difference, 26 - difference);
         int curr = 0;
@@ -21,6 +18,9 @@ class Solution {
         if(difference <= k) {
             curr = 2 + recursion(i+1, j-1, k-difference, s, dp);
         }
+
+        int skipLeft = recursion(i+1, j, k, s, dp);
+        int skipRight = recursion(i, j-1, k, s, dp);
 
         return dp[i][j][k] = Math.max(curr, Math.max(skipLeft, skipRight));
     }
