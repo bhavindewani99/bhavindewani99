@@ -8,8 +8,8 @@ class Solution {
             if(colors[right%n] == colors[(right-1)%n]){
                 left = right;
             }
-            if(right - left + 1 > k) left++;
-            if(right - left + 1 == k) groups++;
+            //if(right - left + 1 > k) left++;
+            if(right - left + 1 >= k) groups++;
         }
         return groups;
     }
