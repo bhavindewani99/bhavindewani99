@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int sumDistance(int[] nums, String s, int d) {
         int n = nums.length;
@@ -27,7 +25,7 @@ class Solution {
         }
 
         // Ensure non-negative result due to Java's % behavior
-        if (result < 0) result += MOD;
+        //if (result < 0) result += MOD;
 
         return (int) result;
     }
