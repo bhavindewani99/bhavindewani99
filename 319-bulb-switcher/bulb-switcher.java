@@ -1,14 +1,14 @@
 class Solution {
     public int bulbSwitch(int n) {
         
-        
-        if(n==0) return 0;
-        int result = 1;
+        return optimiZedSolution(n);
+        // if(n==0) return 0;
+        // int result = 1;
 
-        for(int i=2;i<=n;i++){
-            if(isPerfectSquare(i)) result++;
-        }
-        return result;
+        // for(int i=2;i<=n;i++){
+        //     if(isPerfectSquare(i)) result++;
+        // }
+        // return result;
     }
 
 
@@ -16,6 +16,12 @@ class Solution {
         long sqrt = (long) Math.sqrt(number);
         return sqrt * sqrt == number;
     }
+
+    private int optimiZedSolution(int n) {
+        return (int) Math.sqrt(n);
+    }
+
+
 }
 
 // Pattern is we have to find out how many times each bulb will be toggled
