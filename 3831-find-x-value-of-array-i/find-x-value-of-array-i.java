@@ -25,3 +25,7 @@ class Solution {
     }
 }
 
+// Logic is we are trying to find out possible subarrays with all the remainders ending at the current element
+// Eg -> nums = [1,2,3,4,5], k = 3 suppose pointer is at 3 means nums[3] = 4
+// then we will try to find out all subarrays ending at 4 with all possible remainders
+
