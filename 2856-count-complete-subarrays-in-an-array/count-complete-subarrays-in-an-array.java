@@ -9,11 +9,8 @@ class Solution {
 
 
         for(int right = 0; right < n; right++){
+            
             currDistinct.put(nums[right], currDistinct.getOrDefault(nums[right], 0)+1);
-
-            // if(currDistinct.size() == totalDistinct.size()){
-            //     result += n - right; // because adding more will also create complete array
-            // }
 
             while(currDistinct.size() == totalDistinct.size()){
                 result += n - right; // because adding more will also create complete array
