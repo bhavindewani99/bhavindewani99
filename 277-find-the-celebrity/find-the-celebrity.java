@@ -4,25 +4,22 @@
 public class Solution extends Relation {
     public int findCelebrity(int n) {
         
-        int[] indegree = new int[n], outdegree = new int[n];
+        // We will find out the celebrity by ruling out method
+        // if a knows b meaning a cannot be celebrity for sure as it knows someone, so our next candidat will be b
+        // If a does not knows b meaning b cannot be celebrity as everyone has to know clebrity so our candidate will still be a then at the end we will check our candidate is celebrity or not
+
+        int celebCandidate = 0;
 
         for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(i!=j){
-                    if(super.knows(j,i)){
-                        outdegree[j]++;
-                        indegree[i]++;
-                    }
-                }
+            if(knows(celebCandidate, i)){
+                celebCandidate = i;
             }
         }
 
         for(int i=0;i<n;i++){
-            if(outdegree[i]==0 && indegree[i]==n-1) return i;
+            if(i!=celebCandidate && (knows(i,celebCandidate)==false || knows(celebCandidate, i) == true)) return -1;
         }
 
-        return -1;
-
-
+        return celebCandidate;
     }
 }
