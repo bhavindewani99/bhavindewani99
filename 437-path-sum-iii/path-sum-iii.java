@@ -15,24 +15,27 @@
  */
 class Solution {
     public int pathSum(TreeNode root, int targetSum) {
-        if (root == null) return 0;
-        
-        int fromRoot = countPaths(root, targetSum, 0);
-        
-        int fromLeft = pathSum(root.left, targetSum);
-        int fromRight = pathSum(root.right, targetSum);
-        
-        return fromRoot + fromLeft + fromRight;
+        Map<Long, Integer> map = new HashMap<>();
+        map.put(0l, 1);
+
+        return dfs(root, targetSum, 0, map);
     }
 
-    private int countPaths(TreeNode node, int targetSum, long currSum) {
-        if (node == null) return 0;
 
-        currSum += node.val;
-        int count = currSum == targetSum ? 1 : 0;
+    private int dfs(TreeNode root, int targetSum, long currSum, Map<Long, Integer> map){
+        if(root == null) return 0;
 
-        count += countPaths(node.left, targetSum, currSum);
-        count += countPaths(node.right, targetSum, currSum);
+        int count = 0;
+        currSum = currSum + root.val;
+        long x = currSum - targetSum;
+        
+        if(map.getOrDefault(x, 0) > 0) count += map.get(x);
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
+
+        count += dfs(root.left, targetSum, currSum, map);
+        count += dfs(root.right, targetSum, currSum, map);
+
+        map.put(currSum, map.getOrDefault(currSum, 0) - 1);
 
         return count;
     }
