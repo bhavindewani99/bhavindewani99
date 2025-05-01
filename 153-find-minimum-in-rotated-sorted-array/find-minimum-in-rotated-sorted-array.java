@@ -7,7 +7,7 @@ class Solution {
         while(l<=h){
             int mid = (l+h)/2;
             res = Math.min(res,nums[mid]);
-            if(nums[mid]<=nums[h]){
+            if(nums[mid]<nums[h]){
                 h = mid-1;
             }else{
                 l = mid+1;
