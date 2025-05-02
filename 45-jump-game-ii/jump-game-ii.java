@@ -16,6 +16,6 @@ class Solution {
                 if(end>=n-1) return jumps;
             }
         }
-        return jumps;
+        return -1;
     }
 }
