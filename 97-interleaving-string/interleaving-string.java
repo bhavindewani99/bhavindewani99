@@ -7,7 +7,7 @@ class Solution {
     }
 
     private boolean recursion(String s1, String s2, String s3, int i, int j, int k,int[][] memo){
-        if(i>=s1.length() && j>=s2.length()) return true;
+        if(i==s1.length() && j==s2.length()) return true;
 
         if(memo[i][j]!=-1) return memo[i][j]==1 ? true : false;
         boolean valid = false;
