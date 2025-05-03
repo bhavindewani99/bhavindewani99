@@ -1,22 +1,27 @@
 class Solution {
     public String reverseWords(String s) {
-        s = s.trim();
-        int right = s.length()-1;
-        StringBuilder res = new StringBuilder();
+        
+        int left = 0, right = s.length()-1;
+        Deque<String> deque = new LinkedList<>();
+        StringBuilder curr = new StringBuilder();
 
-        while(right>=0){
+        while(left<=right && s.charAt(left)==' ') left++; // removing front space
+        while(left<=right && s.charAt(right)== ' ') right--; //removing back space
 
-            while(right>=0 && s.charAt(right)==' ') right--;
+        while(left<=right){
+            char currChar = s.charAt(left);
 
-            int left = right;
-            while(left>=0 && s.charAt(left)!=' ') left--;
-            res.append(s.substring(left+1,right+1));
-            res.append(" ");
-            right=left;
-
+            if(currChar == ' ' && curr.length() > 0){
+                deque.offerFirst(curr.toString());
+                curr.setLength(0);
+            }else if(currChar != ' '){
+                curr.append(currChar);
+            }
+            left++;
         }
-        if(res.length()>0)
-        res.setLength(res.length()-1);
-        return res.toString();
+
+        if(curr.length() > 0) deque.offerFirst(curr.toString());
+
+        return String.join(" ", deque);
     }
 }
