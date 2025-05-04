@@ -1,28 +1,29 @@
-class Solution {
+public class Solution {
     public int hIndex(int[] citations) {
-        
-        int low = 0, high = citations.length, result = 0;
+        int n = citations.length;
+        int[] papers = new int[n + 1];
 
-        while(low<=high){
-            int mid = (low + high)/2;
-            if(possible(mid, citations)){
-                result = mid;
-                low = mid+1;
-            }else{
-                high = mid -1;
+        // Step 1: Count how many papers have 0, 1, ..., n or more citations
+        for (int c : citations) {
+            // Any citation count greater than n is considered as n
+            if (c >= n) {
+                papers[n]++;
+            } else {
+                papers[c]++;
             }
         }
 
-        return result;
-    }
-
-    private boolean possible(int mid, int[] citations){
-        int curr = 0;
-
-        for(int citation : citations){
-            if(citation >= mid) curr++;
+        // Step 2: Start from the highest possible h-index (n) and go down
+        int totalPapers = 0; // total number of papers with at least 'i' citations
+        for (int i = n; i >= 0; i--) {
+            totalPapers += papers[i];
+            if (totalPapers >= i) {
+                // Found the highest i such that there are at least i papers with i or more citations
+                return i;
+            }
         }
 
-        return curr >= mid;
+        // Should never reach here
+        return 0;
     }
 }
