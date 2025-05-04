@@ -19,13 +19,12 @@ class Solution {
             }
         }
         
-        int time = -1;
+        int time = 0;
         queue.offer(starTreeNode);
         Set<TreeNode> visited = new HashSet<>();
         visited.add(starTreeNode);
 
         while (!queue.isEmpty()) {
-            time++;
             int n = queue.size();
             for (int i = 0; i < n; i++) {
                 TreeNode node = queue.poll();
@@ -42,6 +41,7 @@ class Solution {
                     visited.add(parentHashMap.get(node));
                 }
             }
+            if(queue.size()>0) time++;
         }
 
         return time;
