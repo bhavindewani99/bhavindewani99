@@ -1,6 +1,8 @@
 class Solution {
     public int minMutation(String startGene, String endGene, String[] bank) {
         
+        // We are doing BFS from the starting string we are trying each possible by replacing each character with all 4 possible characters if present in the bank then only we process
+        // so at worst case we do this for each word in the bank and for each word we can do 32 permutations as length will be always 8 and possible characters is 4 so time complexity is O(n*32)
         Set<String> givenBank = new HashSet<>();
         char[] possible = {'A','C','G','T'};
 
