@@ -1,6 +1,10 @@
 class Solution {
     public long minSum(int[] nums1, int[] nums2) {
         
+        // First we calculate sum and count of zeros from both arrays
+        // now we have to replace every zero with a number so we assume that we replace with 1
+        // So we get updated sum from both arrays
+        // If sum1 > sum2 means there should be atleast one zero to make sum2 equal to sum1 and viceverca
         long sum1 = 0, sum2 =0;
         int count1 =0, count2 = 0;
 
