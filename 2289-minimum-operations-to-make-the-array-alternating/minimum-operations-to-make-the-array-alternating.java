@@ -1,64 +1,60 @@
 class Solution {
-    public int minimumOperations(int[] nums) {
-        
-        int n = nums.length;
-        if(n==1) return 0;
-        Map<Integer, Integer> even = new HashMap<>();
-        Map<Integer, Integer> odd = new HashMap<>();
-        PriorityQueue<Pair> pq1 = new PriorityQueue<>((a,b) -> a.frequency - b.frequency);
-        PriorityQueue<Pair> pq2 = new PriorityQueue<>((a,b) -> a.frequency - b.frequency);
-        int length1 = n%2==0 ? n/2 : n/2 + 1;
-        int length2 = n/2;
 
-
-        for(int i=0;i<n;i++){
-            if(i%2==0) even.put(nums[i], even.getOrDefault(nums[i], 0) + 1);
-            else odd.put(nums[i], odd.getOrDefault(nums[i], 0) + 1);
-        }
-
-        for(Map.Entry<Integer, Integer> entry : even.entrySet()){
-            if(pq1.size() < 2) pq1.offer(new Pair(entry.getKey(), entry.getValue()));
-            else if(pq1.peek().frequency < entry.getValue()){
-                pq1.poll();
-                pq1.offer(new Pair(entry.getKey(), entry.getValue()));
-            }
-        }
-
-        for(Map.Entry<Integer, Integer> entry : odd.entrySet()){
-            if(pq2.size() < 2) pq2.offer(new Pair(entry.getKey(), entry.getValue()));
-            else if(pq2.peek().frequency < entry.getValue()){
-                pq2.poll();
-                pq2.offer(new Pair(entry.getKey(), entry.getValue()));
-            }
-        }
-
-        List<Pair> list1 = new ArrayList<>();
-        List<Pair> list2 = new ArrayList<>();
-
-        while (pq1.isEmpty()==false) list1.add(pq1.poll());
-        while (pq2.isEmpty()==false) list2.add(pq2.poll());
-
-        Collections.reverse(list1);
-        Collections.reverse(list2);
-
-        if(list1.get(0).element != list2.get(0).element){
-            return length1 - list1.get(0).frequency + length2 - list2.get(0).frequency;
-        }else if(list1.size()==1 && list2.size()==1){
-            return n - Math.max(list1.get(0).frequency, list2.get(0).frequency);
-        }else if(list1.size() == 1){
-            return n - list1.get(0).frequency - list2.get(1).frequency;
-        }else if(list2.size() == 1){
-            return n - list2.get(0).frequency - list1.get(1).frequency;
-        }
-        return n - Math.max(list1.get(0).frequency + list2.get(1).frequency, list1.get(1).frequency + list2.get(0).frequency);
-
-    }
-
-    class Pair{
+    static class Pair {
         int element, frequency;
-        Pair(int element, int frequency){
+        Pair(int element, int frequency) {
             this.element = element;
             this.frequency = frequency;
         }
+    }
+
+    public int minimumOperations(int[] nums) {
+        int n = nums.length;
+        if (n == 1) return 0;
+
+        int evenLen = (n + 1) / 2;
+        int oddLen = n / 2;
+
+        Map<Integer, Integer> evenFreq = new HashMap<>();
+        Map<Integer, Integer> oddFreq = new HashMap<>();
+
+        // Count frequency of elements at even and odd indices
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 0)
+                evenFreq.put(nums[i], evenFreq.getOrDefault(nums[i], 0) + 1);
+            else
+                oddFreq.put(nums[i], oddFreq.getOrDefault(nums[i], 0) + 1);
+        }
+
+        // Get top 2 frequent elements from even and odd positions
+        List<Pair> topEven = getTopTwo(evenFreq);
+        List<Pair> topOdd = getTopTwo(oddFreq);
+
+        Pair even1 = topEven.get(0), even2 = topEven.size() > 1 ? topEven.get(1) : new Pair(-1, 0);
+        Pair odd1 = topOdd.get(0), odd2 = topOdd.size() > 1 ? topOdd.get(1) : new Pair(-1, 0);
+
+        // If top even and odd elements are different, no conflict
+        if (even1.element != odd1.element) {
+            return (evenLen - even1.frequency) + (oddLen - odd1.frequency);
+        } else {
+            // Try combinations avoiding same value in even and odd
+            int option1 = (evenLen - even1.frequency) + (oddLen - odd2.frequency);
+            int option2 = (evenLen - even2.frequency) + (oddLen - odd1.frequency);
+            return Math.min(option1, option2);
+        }
+    }
+
+    // Helper to get top 2 frequent elements
+    private List<Pair> getTopTwo(Map<Integer, Integer> freqMap) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.frequency - b.frequency);
+
+        for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            pq.offer(new Pair(entry.getKey(), entry.getValue()));
+            if (pq.size() > 2) pq.poll(); // Keep only top 2
+        }
+
+        List<Pair> result = new ArrayList<>(pq);
+        result.sort((a, b) -> b.frequency - a.frequency); // Descending order
+        return result;
     }
 }
