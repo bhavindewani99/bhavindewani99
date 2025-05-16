@@ -1,6 +1,10 @@
 class Solution {
 
-    static class Pair {
+// We want to make all even-indexed elements the same and all odd-indexed elements the same,
+// while minimizing the number of changes. We find the two most frequent numbers at even and odd positions.
+// If the most frequent ones are different, we use them. If they are the same, we try the next best alternative.
+
+    class Pair {
         int element, frequency;
         Pair(int element, int frequency) {
             this.element = element;
