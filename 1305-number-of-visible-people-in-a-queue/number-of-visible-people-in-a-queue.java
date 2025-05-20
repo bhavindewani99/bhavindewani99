@@ -1,25 +1,26 @@
 class Solution {
     public int[] canSeePersonsCount(int[] heights) {
-        
         int n = heights.length;
-        Stack<Integer> stack = new Stack<>();
         int[] result = new int[n];
-        stack.add(heights[n-1]);
+        Stack<Integer> stack = new Stack<>();
 
-        for(int i=n-2;i>=0;i--){
+        // Iterate from right to left: simulate looking to the right of each person
+        for (int i = n - 1; i >= 0; i--) {
+            int visibleCount = 0;
 
-            if(stack.peek() > heights[i]) {
-                result[i] = 1;
-            }else{
-                int count = 0;
-                while(stack.isEmpty()==false && stack.peek() < heights[i]) {
-                    count++;
-                    stack.pop();
-                }
-                if(stack.isEmpty() == false) count++;
-                result[i] = count;
+            // Pop and count all shorter persons (they are fully visible),
+            // stop at the first taller or equal person (also visible but blocks further view)
+            while (!stack.isEmpty() && heights[i] > stack.peek()) {
+                stack.pop();
+                visibleCount++;
             }
-            stack.add(heights[i]);
+
+            if (!stack.isEmpty()) {
+                visibleCount++; // Taller or equal person also visible
+            }
+
+            result[i] = visibleCount;
+            stack.push(heights[i]);
         }
 
         return result;
