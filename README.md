@@ -9,7 +9,7 @@ Hi 👋, I'm Bhavin Devani!
 
 ### Connect with me:
 <p>
-    <a target="_blank" href="mailto:bdevani@scu.edu.edu"><img align="left" alt="Gmail" height="35" width="35" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" /></a>
+    <a target="_blank" href="mailto:bhavindewani@gmail.com"><img align="left" alt="Gmail" height="35" width="35" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" /></a>
     <a href="https://linkedin.com/in/bhavin-devani/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="bhavindevani" height="30" width="40" /></a>
    
 </p>
