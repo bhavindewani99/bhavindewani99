@@ -1,4 +1,7 @@
 class Solution {
+// There can be multiple graphs but its sure that 1 and N will be present in the same graph 
+// So run the dfs from 1 and it will reach to N for sure
+// And just track the minimum among the path as we can revisit the same node we will be able to achieve that minimum value
     int result = Integer.MAX_VALUE;
     public int minScore(int n, int[][] roads) {
         
