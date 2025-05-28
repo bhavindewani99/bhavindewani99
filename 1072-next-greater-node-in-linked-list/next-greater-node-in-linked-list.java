@@ -1,47 +1,31 @@
-
-
-import static java.lang.System.in;
-
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
     public int[] nextLargerNodes(ListNode head) {
-        
-        ListNode prev = null;
-        int length = 0;
+        List<Integer> values = new ArrayList<>();
+        Stack<int[]> stack = new Stack<>(); // stores [index, value] pairs
 
-        while(head!=null){
-            ListNode nextNode = head.next;
-            head.next = prev;
-            prev = head;
-            head = nextNode;
-            length++;
+        ListNode curr = head;
+        int index = 0;
+
+        while (curr != null) {
+            values.add(0); // initialize result value with 0 (default)
+
+            // While stack not empty and current value is greater than stack top's value
+            while (!stack.isEmpty() && curr.val > stack.peek()[1]) {
+                int[] prev = stack.pop();
+                values.set(prev[0], curr.val);
+            }
+
+            stack.push(new int[]{index, curr.val});
+            curr = curr.next;
+            index++;
         }
 
-        int[] result = new int[length];
-        int index = length-1;
-        Stack<Integer> stack = new Stack<>();
-
-        while(prev!=null){
-            while(!stack.isEmpty() && stack.peek() <= prev.val) stack.pop();
-
-            if(stack.isEmpty()) result[index] = 0;
-            else result[index] = stack.peek();
-            index--;
-
-            stack.add(prev.val);
-            prev = prev.next;
+        // Convert result list to array
+        int[] result = new int[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            result[i] = values.get(i);
         }
 
         return result;
-
     }
 }
