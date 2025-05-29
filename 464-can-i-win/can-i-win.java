@@ -1,35 +1,26 @@
-import java.util.*;
-
 class Solution {
+    Map<Integer,Boolean> memo=new HashMap<>();
     public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
-        // Edge case: if desiredTotal is 0 or less, the first player wins immediately
-        if (desiredTotal <= 0) return true;
-
-        // Sum of all choosable numbers
-        int maxTotal = (maxChoosableInteger * (maxChoosableInteger + 1)) / 2;
-        if (maxTotal < desiredTotal) return false; // Not possible to reach desiredTotal
-
-        Map<Integer, Boolean> memo = new HashMap<>();
-        return canWin(0, desiredTotal, maxChoosableInteger, memo);
+        if(((maxChoosableInteger+1)*maxChoosableInteger)/2<desiredTotal)
+        return false;
+        return canIwinHelper(maxChoosableInteger,desiredTotal,0,memo);
     }
-
-    private boolean canWin(int usedNumbers, int desiredTotal, int maxChoosableInteger, Map<Integer, Boolean> memo) {
-        if (memo.containsKey(usedNumbers)) {
-            return memo.get(usedNumbers);
+    public boolean canIwinHelper(int maxChoosableInteger,int desiredTotal,int currentstState,Map<Integer,Boolean> memo){
+        if(memo.containsKey(currentstState)){
+            return memo.get(currentstState);
         }
 
-        for (int i = 1; i <= maxChoosableInteger; i++) {
-            int currentBit = 1 << i;
-            if ((usedNumbers & currentBit) == 0) {
-                // If choosing i reaches or exceeds desiredTotal, or the opponent cannot win in the next turn
-                if (i >= desiredTotal || !canWin(usedNumbers | currentBit, desiredTotal - i, maxChoosableInteger, memo)) {
-                    memo.put(usedNumbers, true);
+        for(int i=1;i<=maxChoosableInteger;i++){
+            if((currentstState & (1<<(i-1)))==0){
+                int newstate=currentstState | (1<<(i-1));
+                if(i>=desiredTotal || !canIwinHelper(maxChoosableInteger,desiredTotal-i,newstate,memo)){
+                    memo.put(currentstState,true);
                     return true;
                 }
             }
         }
-
-        memo.put(usedNumbers, false);
+        memo.put(currentstState,false);
         return false;
+
     }
 }
