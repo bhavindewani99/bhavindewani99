@@ -1,62 +1,36 @@
 class Solution {
     public int closestMeetingNode(int[] edges, int node1, int node2) {
+        int n = edges.length;
 
-        if(node1==node2) return node1;
-        
-        int minDistance = Integer.MAX_VALUE, resultNode = -1;
-        Map<Integer, Integer> visited1 = new HashMap<>();
-        Map<Integer, Integer> visited2 = new HashMap<>();
-        Queue<Pair> queue = new LinkedList<>();
-        queue.offer(new Pair(node1, 0, node1));
-        queue.offer(new Pair(node2, 0, node2));
+        int[] dist1 = new int[n];
+        int[] dist2 = new int[n];
 
-        while (!queue.isEmpty()) {
-            int currNode = queue.peek().node, currDist = queue.peek().distance, sourceNode = queue.peek().sourceNode;
-            queue.poll();
+        Arrays.fill(dist1, -1);
+        Arrays.fill(dist2, -1);
 
-            //System.out.println("node is "+currNode+" distance is "+currDist+" sourceNode is "+sourceNode);
+        dfs(edges, node1, dist1);
+        dfs(edges, node2, dist2);
 
-            if(sourceNode == node1){
-                if(visited2.containsKey(currNode)){
-                    int maxDistance = Math.max(currDist, visited2.get(currNode));
-                    if(maxDistance < minDistance){
-                        minDistance = maxDistance;
-                        resultNode = currNode;
-                    }else if(maxDistance == minDistance){
-                        resultNode = Math.min(resultNode, currNode);
-                    }
-                }
-                visited1.put(currNode, currDist);
-                if(edges[currNode]!=-1 && visited1.containsKey(edges[currNode])==false){
-                    queue.offer(new Pair(edges[currNode], currDist+1, sourceNode));
-                }
-            }else{
-                if(visited1.containsKey(currNode)){
-                    int maxDistance = Math.max(currDist, visited1.get(currNode));
-                    if(maxDistance < minDistance){
-                        minDistance = maxDistance;
-                        resultNode = currNode;
-                    }else if(maxDistance == minDistance){
-                        resultNode = Math.min(resultNode, currNode);
-                    }
-                }
-                visited2.put(currNode, currDist);
-                if(edges[currNode]!=-1 && visited2.containsKey(edges[currNode])==false){
-                    queue.offer(new Pair(edges[currNode], currDist+1, sourceNode));
+        int result = -1, minDistance = Integer.MAX_VALUE;
+
+        for (int i = 0; i < n; i++) {
+            if (dist1[i] != -1 && dist2[i] != -1) {
+                int maxDist = Math.max(dist1[i], dist2[i]);
+                if (maxDist < minDistance || (maxDist == minDistance && i < result)) {
+                    minDistance = maxDist;
+                    result = i;
                 }
             }
-            
         }
-        return resultNode;
+
+        return result;
     }
 
-
-    class Pair{
-        int node, distance, sourceNode;
-        Pair(int node, int distance, int sourceNode){
-            this.node = node;
-            this.distance = distance;
-            this.sourceNode = sourceNode;
+    private void dfs(int[] edges, int start, int[] dist) {
+        int distance = 0;
+        while (start != -1 && dist[start] == -1) {
+            dist[start] = distance++;
+            start = edges[start];
         }
     }
 }
