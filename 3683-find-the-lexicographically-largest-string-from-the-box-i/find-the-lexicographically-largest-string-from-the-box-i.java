@@ -14,7 +14,7 @@ class Solution {
         for(int i=0;i < wordLen;i++){
             int currEndingIndex = Math.min(i+maxPossibleLen, wordLen);
             String curString = word.substring(i,currEndingIndex);
-            if(curString.charAt(0) == maxPossibleChar && ( resultString.length()==0 || curString.compareTo(resultString) > 0)){
+            if( ( resultString.length()==0 || curString.compareTo(resultString) > 0)){
                 resultString = curString;
             }
         }
