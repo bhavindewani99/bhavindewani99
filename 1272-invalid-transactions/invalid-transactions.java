@@ -1,42 +1,72 @@
 class Solution {
-    public List<String> invalidTransactions(String[] transactions) {
-        int n = transactions.length;
-        List<String> result = new ArrayList<>();
-        boolean[] invalid = new boolean[n];
+    static class Transaction {
+        int index;
+        String name;
+        int time;
+        int amount;
+        String city;
 
-        String[][] parsed = new String[n][];
-        for (int i = 0; i < n; i++) {
-            parsed[i] = transactions[i].split(",");
+        Transaction(int index, String[] parts) {
+            this.index = index;
+            this.name = parts[0];
+            this.time = Integer.parseInt(parts[1]);
+            this.amount = Integer.parseInt(parts[2]);
+            this.city = parts[3];
         }
 
+        String toOriginalString() {
+            return String.join(",", name, String.valueOf(time), String.valueOf(amount), city);
+        }
+    }
+
+    public List<String> invalidTransactions(String[] transactions) {
+        int n = transactions.length;
+        Transaction[] parsed = new Transaction[n];
+        boolean[] invalid = new boolean[n];
+
+        // Parse all transactions
         for (int i = 0; i < n; i++) {
-            String name1 = parsed[i][0];
-            int time1 = Integer.parseInt(parsed[i][1]);
-            int amount1 = Integer.parseInt(parsed[i][2]);
-            String city1 = parsed[i][3];
+            String[] parts = transactions[i].split(",");
+            parsed[i] = new Transaction(i, parts);
+        }
 
-            // Rule 1: Amount > 1000
-            if (amount1 > 1000) {
-                invalid[i] = true;
-            }
+        // Group transactions by name
+        Map<String, List<Transaction>> nameToTransactions = new HashMap<>();
+        for (Transaction txn : parsed) {
+            nameToTransactions.computeIfAbsent(txn.name, k -> new ArrayList<>()).add(txn);
+        }
 
-            // Rule 2: Different city within 60 minutes
-            for (int j = 0; j < n; j++) {
-                if (i == j) continue;
+        // Check invalid transactions by name group
+        for (List<Transaction> txns : nameToTransactions.values()) {
+            // Sort by time for efficient window check
+            txns.sort(Comparator.comparingInt(t -> t.time));
 
-                String name2 = parsed[j][0];
-                int time2 = Integer.parseInt(parsed[j][1]);
-                String city2 = parsed[j][3];
+            for (int i = 0; i < txns.size(); i++) {
+                Transaction t1 = txns.get(i);
 
-                if (name1.equals(name2) && !city1.equals(city2) && Math.abs(time1 - time2) <= 60) {
-                    invalid[i] = true;
+                // Rule 1: amount > 1000
+                if (t1.amount > 1000) {
+                    invalid[t1.index] = true;
+                }
+
+                // Rule 2: check nearby transactions within 60 minutes and different city
+                // Since sorted, break early once time difference > 60
+                for (int j = i + 1; j < txns.size(); j++) {
+                    Transaction t2 = txns.get(j);
+                    if (t2.time - t1.time > 60) break;
+                    if (!t1.city.equals(t2.city)) {
+                        invalid[t1.index] = true;
+                        invalid[t2.index] = true;
+                    }
                 }
             }
         }
 
-        for (int i = 0; i < n; i++) {
-            if (invalid[i]) {
-                result.add(String.join(",", parsed[i]));
+        // Collect invalid transactions to result
+        List<String> result = new ArrayList<>();
+        for (Transaction txn : parsed) {
+            if (invalid[txn.index]) {
+                result.add(txn.toOriginalString());
             }
         }
 
