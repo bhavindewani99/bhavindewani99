@@ -64,10 +64,14 @@ class Solution {
 
         // Collect invalid transactions to result
         List<String> result = new ArrayList<>();
-        for (Transaction txn : parsed) {
-            if (invalid[txn.index]) {
-                result.add(txn.toOriginalString());
-            }
+        // for (Transaction txn : parsed) {
+        //     if (invalid[txn.index]) {
+        //         result.add(txn.toOriginalString());
+        //     }
+        // }
+
+        for(int i=0;i<n;i++){
+            if(invalid[i]) result.add(transactions[i]);
         }
 
         return result;
