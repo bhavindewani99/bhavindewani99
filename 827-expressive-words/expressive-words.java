@@ -26,7 +26,7 @@ class Solution {
 
             // Validate stretchiness
             if (sGroupLen < 3 && wordGroupLen != sGroupLen) return false;
-            if (sGroupLen >= 3 && wordGroupLen > sGroupLen) return false;
+            if (wordGroupLen > sGroupLen) return false;
         }
 
         return i == m && j == n;
