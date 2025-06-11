@@ -7,12 +7,8 @@ class Solution {
             if(list.isEmpty() || list.getLast() < number){
                 list.add(number);
             }else{
-                for(int k = 0;k<list.size();k++){
-                    if(list.get(k) >= number){
-                        list.set(k, number);
-                        break;
-                    }
-                }
+                if(list.get(0) >= number) list.set(0, number);
+                else list.set(1, number);
             }
             if(list.size() == 3) return true;
         }
