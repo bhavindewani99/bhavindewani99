@@ -1,63 +1,51 @@
-import java.util.*;
-
 class Solution {
-    int m, n;
-    char[][] seats;
-    Map<String, Integer> memo;
 
+    Map<String, Integer> map = new HashMap<>();
+    int m,n;
     public int maxStudents(char[][] seats) {
-        this.seats = seats;
-        this.m = seats.length;
-        this.n = seats[0].length;
-        this.memo = new HashMap<>();
-        return dfs(0, 0);
+        m = seats.length;
+        n = seats[0].length;
+        return dfs(0, 0, seats);
     }
 
-    // Recursively try all valid seatings row by row
-    private int dfs(int row, int prevMask) {
-        if (row == m) return 0;  // base case: all rows processed
+    private int dfs(int row, int prevMask, char[][] seats){
+        if(row == m) return 0;
+        String key = row + "*" + prevMask;
 
-        String key = row + "," + prevMask;
-        if (memo.containsKey(key)) return memo.get(key);
+        if(map.containsKey(key)) return map.get(key);
 
-        int maxStudents = 0;
+        int currStudents = 0;
 
-        // Try all seat configurations (bitmasks) for this row
-        for (int currMask = 0; currMask < (1 << n); currMask++) {
-            if (isValid(row, currMask) && noDiagonalConflict(currMask, prevMask)) {
-                int count = Integer.bitCount(currMask); // number of students seated in this mask
-                maxStudents = Math.max(maxStudents, count + dfs(row + 1, currMask));
+        for(int currMask = 0; currMask < (1<<n); currMask++){
+            if(isValid(currMask, row, seats) && noDiagonalConflict(currMask, prevMask)){
+                int count = Integer.bitCount(currMask);
+                currStudents = Math.max(currStudents, count + dfs(row+1, currMask, seats));
             }
         }
 
-        memo.put(key, maxStudents);
-        return maxStudents;
+        map.put(key, currStudents);
+        return map.get(key);
     }
 
-    // Check if current row mask has valid student positions
-    private boolean isValid(int row, int mask) {
-        for (int col = 0; col < n; col++) {
-            if (((mask >> col) & 1) == 1) {
-                // Can't sit on broken seat
-                if (seats[row][col] == '#') return false;
-
-                // Can't sit next to another student (left-right)
-                if (col > 0 && ((mask >> (col - 1)) & 1) == 1) return false;
-                if (col < n - 1 && ((mask >> (col + 1)) & 1) == 1) return false;
+    // This method is to check if currMask means students are seating on no broken seats
+    private boolean isValid(int currMask, int row, char[][] seats){
+        for(int col=0;col<n;col++){
+            if(((currMask >> col) & 1) == 1){
+                if(seats[row][col] == '#') return false;
+                
+                if(col > 0 && ((currMask >> col-1 ) & 1)== 1) return false;
+                if(col < n-1 && ((currMask >> col+1) & 1)==1) return false;
             }
         }
         return true;
     }
 
-    // Check for diagonal conflicts with previous row
-    private boolean noDiagonalConflict(int currMask, int prevMask) {
-        // Diagonal left: student above right (prevMask at col+1)
-        if ((currMask << 1 & prevMask) != 0) return false;
-
-        // Diagonal right: student above left (prevMask at col-1)
-        if ((currMask >> 1 & prevMask) != 0) return false;
+    // To check diagonal confict
+    private boolean noDiagonalConflict(int currMask, int prevMask){
+        if(((currMask << 1) & prevMask) != 0) return false;
+        if(((currMask >> 1) & prevMask) != 0) return false;
 
         return true;
     }
+
 }
-
