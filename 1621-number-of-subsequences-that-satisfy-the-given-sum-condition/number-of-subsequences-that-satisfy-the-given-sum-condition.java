@@ -32,7 +32,7 @@ class Solution {
 
     private long modPow(long base, int exp, long mod) {
         long result = 1;
-        base %= mod;
+        //base %= mod;
         while (exp > 0) {
             if ((exp & 1) == 1) {
                 result = (result * base) % mod;
