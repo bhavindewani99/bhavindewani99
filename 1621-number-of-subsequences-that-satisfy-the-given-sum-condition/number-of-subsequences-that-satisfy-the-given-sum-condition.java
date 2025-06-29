@@ -1,30 +1,45 @@
 class Solution {
     public int numSubseq(int[] nums, int target) {
-    
+        long result = 0, mod = (int) 1e9 + 7;
         Arrays.sort(nums);
-        
-        int MOD = 1000000007;
-        int n = nums.length;
-        int[] power = new int[n];
-        power[0] = 1;
-        
-        for (int i = 1; i < n; i++) {
-            power[i] = (power[i - 1] * 2) % MOD;
-        }
-        
-        long res = 0;
-        int l = 0, r = n - 1;
-        
-        while (l <= r) {
-            if (nums[l] + nums[r] <= target) {
-                // Add valid subsequences count
-                res = (res + power[r - l]) % MOD;
-                l++;
-            } else {
-                r--;
+
+        for (int left = 0; left < nums.length; left++) {
+            if (nums[left] > target - nums[left]) break;
+            int newTarget = target - nums[left];
+            int rightIndex = binarySearch(nums, newTarget);
+
+            if (rightIndex >= left) {
+                result = (result + modPow(2, rightIndex - left, mod)) % mod;
             }
         }
-        
-        return (int) res;
+        return (int) result;
+    }
+
+    private int binarySearch(int[] nums, int target) {
+        int left = 0, right = nums.length - 1, index = -1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] <= target) {
+                index = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return index;
+    }
+
+    private long modPow(long base, int exp, long mod) {
+        long result = 1;
+        base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) {
+                result = (result * base) % mod;
+            }
+            base = (base * base) % mod;
+            exp >>= 1;
+        }
+        return result;
     }
 }
