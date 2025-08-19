@@ -1,11 +1,5 @@
-WITH CTE AS(
-    SELECT c.customer_id, COUNT(DISTINCT c.product_key) AS no_of_keys
-    FROM Customer c
-    GROUP BY c.customer_id
-)
-
-SELECT DISTINCT c.customer_id
-FROM CTE c 
-JOIN Product p 
-WHERE no_of_keys = (SELECT COUNT(*) FROM Product)
-ORDER BY c.customer_id;
+# Write your MySQL query statement below
+SELECT DISTINCT customer_id 
+FROM Customer 
+GROUP BY customer_id
+HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(product_key) FROM product);
