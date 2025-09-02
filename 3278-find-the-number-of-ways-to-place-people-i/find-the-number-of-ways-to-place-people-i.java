@@ -1,48 +1,29 @@
 class Solution {
     public int numberOfPairs(int[][] points) {
-        
-        int pairs = 0;
+        int n = points.length;
+        // Sort by x asc, then y desc
+        Arrays.sort(points, (a, b) -> a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]);
 
-        for(int i=0;i<points.length;i++){
-            int basex = points[i][0];
-            int basey = points[i][1];
-            for(int j=0;j<points.length;j++){
-                int currx = points[j][0];
-                int curry = points[j][1];
-                if(j==i || !(basex <= currx && basey >= curry)) continue;
-                boolean inBetween = false;
-                for(int k=0;k<points.length;k++){
-                    if(k==i || k==j) continue;
-                    if(insideRectangle(basex, basey, currx, curry, points[k][0], points[k][1])) {
-                        inBetween = true;
-                        break;
-                    }
+        int pairs = 0;
+        for (int i = 0; i < n; i++) {
+            int baseX = points[i][0], baseY = points[i][1];
+            int maxY = -1;  // track the maximum y among points between i and j
+
+            for (int j = i + 1; j < n; j++) {
+                int currX = points[j][0], currY = points[j][1];
+                if (currY > baseY) continue; // not a valid rectangle
+
+                // If there is any point with y strictly between currY and baseY
+                if (maxY >= currY) {
+                    // some point lies inside rectangle → skip
+                } else {
+                    pairs++;
                 }
-                if(inBetween == false) pairs++;
+
+                // update maxY seen so far
+                maxY = Math.max(maxY, currY);
             }
         }
         return pairs;
     }
-
-    public boolean insideRectangle(int x1, int y1, int x2, int y2, int px, int py) {
-    // Point case
-    if (x1 == x2 && y1 == y2) {
-        return px == x1 && py == y1;
-    }
-
-    // Vertical line
-    if (x1 == x2) {
-        return px == x1 && py >= Math.min(y1,y2) && py <= Math.max(y1,y2);
-    }
-
-    // Horizontal line
-    if (y1 == y2) {
-        return py == y1 && px >= Math.min(x1,x2) && px <= Math.max(x1,x2);
-    }
-
-    // Normal rectangle
-    return (px >= Math.min(x1,x2) && px <= Math.max(x1,x2) &&
-            py >= Math.min(y1,y2) && py <= Math.max(y1,y2));
-}
-
 }
