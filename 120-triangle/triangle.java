@@ -23,22 +23,24 @@ class Solution {
 
     private int tabulation(List<List<Integer>> triangle) {
         int n = triangle.size();
-        Integer[][] dp = new Integer[n][triangle.get(n-1).size()+1];
+        Integer[] dp = new Integer[triangle.get(n-1).size()+1];
 
         // Start from the last row
         for (int col = 0; col < triangle.get(n - 1).size(); col++) {
-            dp[n - 1][col] = triangle.get(n - 1).get(col);
+            dp[col] = triangle.get(n - 1).get(col);
         }
 
         // Fill upwards
         for (int row = n - 2; row >= 0; row--) {
+            Integer[] temp = new Integer[triangle.get(n-1).size()+1];
             for (int col = 0; col < triangle.get(row).size(); col++) {
-                dp[row][col] = triangle.get(row).get(col) +
-                    Math.min(dp[row + 1][col], dp[row + 1][col + 1]);
+                temp[col] = triangle.get(row).get(col) +
+                    Math.min(dp[col], dp[col + 1]);
             }
+            dp = temp;
         }
 
-        return dp[0][0];
+        return dp[0];
     }
 
 }
