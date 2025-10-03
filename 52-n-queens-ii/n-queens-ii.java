@@ -1,44 +1,36 @@
+import java.util.HashSet;
+import java.util.Set;
+
 class Solution {
     public int totalNQueens(int n) {
-        boolean[][] board = new boolean[n][n];
-        return backtrack(0,n,board);
+        Set<Integer> rows = new HashSet<>();
+        Set<Integer> diag1 = new HashSet<>(); // row - col
+        Set<Integer> diag2 = new HashSet<>(); // row + col
+
+        return backtrack(0, n, rows, diag1, diag2);
     }
 
-    private int backtrack(int col, int n, boolean[][] board){
-        if(col == n) return 1;
+    private int backtrack(int col, int n, Set<Integer> rows, Set<Integer> diag1, Set<Integer> diag2) {
+        if (col == n) return 1; // placed all queens
 
-        int ans = 0;
-
-        for(int row = 0; row<n;row++){
-            if(possible(board,row,col,n)){
-                board[row][col] = true;
-                ans = ans + backtrack(col+1,n,board);
-                board[row][col] = false;
+        int count = 0;
+        for (int row = 0; row < n; row++) {
+            if (rows.contains(row) || diag1.contains(row - col) || diag2.contains(row + col)) {
+                continue;
             }
+
+            // place queen
+            rows.add(row);
+            diag1.add(row - col);
+            diag2.add(row + col);
+
+            count += backtrack(col + 1, n, rows, diag1, diag2);
+
+            // backtrack
+            rows.remove(row);
+            diag1.remove(row - col);
+            diag2.remove(row + col);
         }
-        return ans;
+        return count;
     }
-
-    private boolean possible(boolean[][] board, int row, int col, int n){
-
-    // check row on the left side
-    for(int i=0; i<col; i++){
-        if(board[row][i]) return false;
-    }
-
-    // check upper-left diagonal
-    for(int i=row, j=col; i>=0 && j>=0; i--, j--){
-        if(board[i][j]) return false;
-    }
-
-    // check lower-left diagonal
-    for(int i=row, j=col; i<n && j>=0; i++, j--){
-        if(board[i][j]) return false;
-    }
-
-    return true;
-}
-
-
-
 }
