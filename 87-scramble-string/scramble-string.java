@@ -1,10 +1,7 @@
-import java.util.*;
-
 class Solution {
     private Map<String, Boolean> memo = new HashMap<>();
 
     public boolean isScramble(String s1, String s2) {
-        if (s1.length() != s2.length()) return false;
         if (s1.equals(s2)) return true;
         return recursion(s1, s2);
     }
@@ -16,14 +13,6 @@ class Solution {
         if (s1.equals(s2)) {
             memo.put(key, true);
             return true;
-        }
-
-        // pruning: if characters differ, can't be scramble
-        char[] a = s1.toCharArray(), b = s2.toCharArray();
-        Arrays.sort(a); Arrays.sort(b);
-        if (!Arrays.equals(a, b)) {
-            memo.put(key, false);
-            return false;
         }
 
         int n = s1.length();
