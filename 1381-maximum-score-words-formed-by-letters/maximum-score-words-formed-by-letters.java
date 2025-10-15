@@ -8,26 +8,30 @@ class Solution {
     private int backtrack(String[] words, int[] freq, int[] score, int index) {
         if (index == words.length) return 0;
 
-        // Option 1: skip the current word
+        // Option 1: skip this word
         int notTake = backtrack(words, freq, score, index + 1);
 
-        // Option 2: take the current word (if possible)
+        // Option 2: try taking this word
         String word = words[index];
         int wordScore = 0;
         boolean canTake = true;
-        int[] temp = Arrays.copyOf(freq, 26);
 
+        // consume letters
         for (char c : word.toCharArray()) {
-            temp[c - 'a']--;
-            if (temp[c - 'a'] < 0) {
-                canTake = false;
-                break;
-            }
+            freq[c - 'a']--;
+            if (freq[c - 'a'] < 0) canTake = false;
             wordScore += score[c - 'a'];
         }
 
         int take = 0;
-        if (canTake) take = wordScore + backtrack(words, temp, score, index + 1);
+        if (canTake) {
+            take = wordScore + backtrack(words, freq, score, index + 1);
+        }
+
+        // backtrack: restore frequencies
+        for (char c : word.toCharArray()) {
+            freq[c - 'a']++;
+        }
 
         return Math.max(take, notTake);
     }
