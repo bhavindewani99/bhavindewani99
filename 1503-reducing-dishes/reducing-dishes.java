@@ -4,7 +4,8 @@ class Solution {
         // Long[][] dp = new Long[satisfaction.length+1][satisfaction.length+1];
         Arrays.sort(satisfaction);
         // return (int) recursion(satisfaction, 1, 0, dp);
-        return  tabulation(satisfaction);
+        //return  tabulation(satisfaction);
+        return greedy(satisfaction);
     }
 
     private long recursion(int[] satisfaction, int time, int index, Long[][] dp){
@@ -36,5 +37,24 @@ class Solution {
         }
 
         return (int) dp[1];
+    }
+
+    // since we are adding suffix everytime no need to mutlily
+    //Step	Chosen Dishes	suffixSum	    New Total
+    // start	   []	         0	          0
+    // add 5	[5]	            5	          +5
+    // add 0	[0, 5]	    5 + 0 = 5	      +5 → 10
+    // add -1	[-1, 0, 5]	   4	          +  4 → 14
+    // add -8	[-8, -1, 0, 5]	-4	stop (since suffixSum < 0)
+    private int greedy(int[] satisfaction){
+        int n = satisfaction.length;
+        int suffixSum =0 , result = 0;
+
+        for(int i=n-1;i>=0;i--){
+            suffixSum += satisfaction[i];
+            if(suffixSum < 0) break;
+            result += suffixSum;
+        }
+        return result;
     }
 }
