@@ -23,16 +23,18 @@ class Solution {
     private int tabulation(int[] satisfaction){
         int n = satisfaction.length;
         
-        long[][] dp = new long[n+1][n+2];
+        long[] dp = new long[n+2];
 
         for(int i=n-1;i>=0;i--){
+            long[] temp = new long[n+2];
             for(int time = n;time>=1;time--){
-                 long not_take = dp[i+1][time];
-                long take = satisfaction[i] * time + dp[i+1][time+1];
-                dp[i][time] = Math.max(take, not_take);
+                 long not_take = dp[time];
+                long take = satisfaction[i] * time + dp[time+1];
+                temp[time] = Math.max(take, not_take);
             }
+            dp = temp;
         }
 
-        return (int) dp[0][1];
+        return (int) dp[1];
     }
 }
