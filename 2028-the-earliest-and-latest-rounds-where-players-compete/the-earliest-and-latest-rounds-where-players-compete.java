@@ -32,7 +32,7 @@ class Solution {
         }
 
         // found the round where p1 meets p2
-        if ((left == p1 && right == p2) || (left == p2 && right == p1)) {
+        if ((left == p1 && right == p2) ) {
             early = Math.min(early, round);
             last = Math.max(last, round);
             return;
