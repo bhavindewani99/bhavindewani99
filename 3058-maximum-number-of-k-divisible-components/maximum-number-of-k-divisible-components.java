@@ -23,8 +23,8 @@ class Solution {
         for (int nei : graph.get(node)) {
             if (nei == parent) continue;
 
-            long childSum = dfs(nei, node, graph, values, k);
-            sum += childSum;
+            sum += dfs(nei, node, graph, values, k);
+            
         }
 
         if (sum % k == 0) {
