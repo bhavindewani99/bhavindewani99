@@ -30,17 +30,16 @@ class Solution {
 
     class Union{
         int n;
-        int[] size, parent, minimum;
+        int[] size, parent;
         Union(int n){
             this.n = n;
             this.parent = new int[n];
             this.size = new int[n];
-            this.minimum = new int[n];
+            
 
             for(int i=0;i<n;i++){
                 this.parent[i] = i;
-                this.size[i] = i;
-                this.minimum[i] = Integer.MAX_VALUE;
+                this.size[i] = 1;
             }
         }
 
