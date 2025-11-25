@@ -3,43 +3,39 @@ class Solution {
         
         Union union = new Union(n);
         int[] result = new int[query.length];
-        Map<Integer, Integer> map = new HashMap<>();
 
+        // Union all edges and merge weights into component AND
         for(int[] edge : edges){
-            int u = edge[0], v = edge[1], w= edge[2];
-            union.joinBySize(u,v, w);
+            int u = edge[0], v = edge[1], w = edge[2];
+            union.joinBySize(u, v, w);
         }
 
-        for(int[] edge : edges){
-            int u = edge[0], v = edge[1], w= edge[2];
-            int uPar = union.findParent(u);
-            if(!map.containsKey(uPar)) map.put(uPar, w);
-            else map.put(uPar, (map.get(uPar) & w));
-        }
-
-        for(int i=0;i<result.length;i++){
+        // Answer queries
+        for(int i=0; i<query.length; i++){
             int u = query[i][0], v = query[i][1];
-            int uPar = union.findParent(u), vPar = union.findParent(v);
+            int uPar = union.findParent(u);
+            int vPar = union.findParent(v);
+
             if(uPar != vPar) result[i] = -1;
-            else result[i] = map.get(uPar);
+            else result[i] = union.compAnd[uPar];
         }
 
         return result;
     }
 
-
     class Union{
-        int n;
-        int[] size, parent;
-        Union(int n){
-            this.n = n;
-            this.parent = new int[n];
-            this.size = new int[n];
-            
+        int[] parent, size;
+        int[] compAnd;
 
-            for(int i=0;i<n;i++){
-                this.parent[i] = i;
-                this.size[i] = 1;
+        Union(int n){
+            parent = new int[n];
+            size = new int[n];
+            compAnd = new int[n];
+
+            for(int i=0; i<n; i++){
+                parent[i] = i;
+                size[i] = 1;          // FIXED: must be 1, not i
+                compAnd[i] = -1;      // all bits 1 initially
             }
         }
 
@@ -49,14 +45,28 @@ class Solution {
         }
 
         public void joinBySize(int u, int v, int w){
-            int uPar = findParent(u), vPar = findParent(v);
+            int uPar = findParent(u);
+            int vPar = findParent(v);
+
+            if(uPar == vPar){
+                // just update AND with the new edge
+                compAnd[uPar] &= w;
+                return;
+            }
+
+            // combine current AND values
+            int newAnd = w;
+            newAnd &= compAnd[uPar];
+            newAnd &= compAnd[vPar];
 
             if(size[uPar] >= size[vPar]){
-                size[uPar] += size[vPar];
                 parent[vPar] = uPar;
+                size[uPar] += size[vPar];
+                compAnd[uPar] = newAnd;
             }else{
-                size[vPar] += size[uPar];
                 parent[uPar] = vPar;
+                size[vPar] += size[uPar];
+                compAnd[vPar] = newAnd;
             }
         }
     }
