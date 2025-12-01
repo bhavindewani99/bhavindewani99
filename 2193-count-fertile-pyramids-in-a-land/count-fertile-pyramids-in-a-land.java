@@ -1,57 +1,64 @@
 class Solution {
+
+    int m, n;
+    int[][] grid;
+    int[][] memoDown;
+    int[][] memoUp;
+
     public int countPyramids(int[][] grid) {
 
-        int m = grid.length, n = grid[0].length;
-        int pyramids = 0;
-        int[][] prefix = new int[m][n];
-        fillprefix(grid, prefix, m, n);
+        this.grid = grid;
+        m = grid.length;
+        n = grid[0].length;
+
+        memoDown = new int[m][n];
+        memoUp = new int[m][n];
+
+        int result = 0;
 
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                
-                int count = 1;
-                int r = i, c1 = j, c2 = j;
 
-                while(r<m && c1>=0 && c2<n){
-                    int currOnes = c1-1>=0 ? prefix[r][c2] - prefix[r][c1-1] : prefix[r][c2];
+                int hDown = getDown(i, j);
+                int hUp = getUp(i, j);
 
-                    if(currOnes == count){
-                        if(count > 1) pyramids++;
-                    } else break;
-
-                    r++;
-                    c1 -= 1;
-                    c2 += 1;
-                    count += 2;
-                }
-
-                count = 1;
-                r = i; c1 = j; c2 = j;
-
-                while(r>=0 && c1>=0 && c2<n){
-                    int currOnes = c1-1>=0 ? prefix[r][c2] - prefix[r][c1-1] : prefix[r][c2];
-
-                    if(currOnes == count){
-                        if(count > 1) pyramids++;
-                    } else break;
-
-                    r--;
-                    c1 -= 1;
-                    c2 += 1;
-                    count += 2;
-                }
+                if(hDown > 1) result += hDown - 1;
+                if(hUp > 1) result += hUp - 1;
             }
         }
-        return pyramids;
+
+        return result;
     }
 
-    private void fillprefix(int[][] grid, int[][] prefix, int m, int n){
-        for(int i=0;i<m;i++){
-            int ones = 0;
-            for(int j=0;j<n;j++){
-                if(grid[i][j] == 1) ones++;
-                prefix[i][j] = ones;
-            }
-        }
+    private int getDown(int i, int j){
+
+        if(i<0 || j<0 || i>=m || j>=n) return 0;
+        if(grid[i][j] == 0) return 0;
+
+        if(memoDown[i][j] != 0) return memoDown[i][j];
+
+        if(i == m - 1) return memoDown[i][j] = 1;
+
+        int left = getDown(i + 1, j - 1);
+        int mid  = getDown(i + 1, j);
+        int right = getDown(i + 1, j + 1);
+
+        return memoDown[i][j] = 1 + Math.min(mid, Math.min(left, right));
+    }
+
+    private int getUp(int i, int j){
+
+        if(i<0 || j<0 || i>=m || j>=n) return 0;
+        if(grid[i][j] == 0) return 0;
+
+        if(memoUp[i][j] != 0) return memoUp[i][j];
+
+        if(i == 0) return memoUp[i][j] = 1;
+
+        int left = getUp(i - 1, j - 1);
+        int mid  = getUp(i - 1, j);
+        int right = getUp(i - 1, j + 1);
+
+        return memoUp[i][j] = 1 + Math.min(mid, Math.min(left, right));
     }
 }
