@@ -14,7 +14,7 @@
  * }
  */
 class Solution {
-    int resx = 0, resy =-1, res = -1;;
+    int resy = -1, res = -1;;
     public int findBottomLeftValue(TreeNode root) {
         recursion(root, 0);
         return res;
