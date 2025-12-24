@@ -1,25 +1,40 @@
+import java.util.Arrays;
+
 class Solution {
-    Map<String, Double> map = new HashMap<>();
+    private double[][] memo;
+    private double[] pref;
+    private int n;
+
     public double largestSumOfAverages(int[] nums, int k) {
-        return recursion(nums, 0, 0, 0, k);
+        n = nums.length;
+        pref = new double[n + 1];
+        for (int i = 0; i < n; i++) pref[i + 1] = pref[i] + nums[i];
+
+        memo = new double[n][k + 1];
+        for (int i = 0; i < n; i++) Arrays.fill(memo[i], -1.0);
+
+        return dfs(0, k);
     }
 
-    private double recursion(int[] nums, int index, double elements, double currSum, int k){
-        String key = index + "*" + elements + "*" + currSum +"*" + k;
-        if(index == nums.length){
-            if(k >= 1 && elements > 0) return currSum / elements;
-            return 0;
+    private double dfs(int i, int k) {
+        if (memo[i][k] >= 0) return memo[i][k];
+
+        // If only one group left, take average of remaining
+        if (k == 1) return memo[i][k] = avg(i, n - 1);
+
+        double best = 0.0;
+
+        // End first group at j, leave at least (k-1) elements for remaining groups
+        for (int j = i; j <= n - k; j++) {
+            double first = avg(i, j);
+            double rest = dfs(j + 1, k - 1);
+            best = Math.max(best, first + rest);
         }
 
-        if(map.containsKey(key)) return map.get(key);
+        return memo[i][k] = best;
+    }
 
-        double not_take = recursion(nums, index + 1, elements + 1, currSum + nums[index], k);
-
-        double take = 0;
-        if(k > 1 && elements > 0){
-            take = (currSum / elements) + recursion(nums, index + 1, 1, nums[index], k - 1);
-        }
-        map.put(key, Math.max(take, not_take));
-        return Math.max(take, not_take);
+    private double avg(int l, int r) {
+        return (pref[r + 1] - pref[l]) / (r - l + 1);
     }
 }
