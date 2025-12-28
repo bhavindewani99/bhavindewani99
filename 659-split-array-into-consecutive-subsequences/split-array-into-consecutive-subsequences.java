@@ -1,30 +1,43 @@
 class Solution {
     public boolean isPossible(int[] nums) {
-        Map<Integer, Integer> count = new HashMap<>();
-        Map<Integer, Integer> tail = new HashMap<>();
 
-        for (int x : nums) count.put(x, count.getOrDefault(x, 0) + 1);
+        PriorityQueue<Pair> pq = new PriorityQueue<>(
+            (a, b) -> a.element != b.element ? a.element - b.element : a.size - b.size
+        );
 
-        for (int x : nums) {
-            if (count.get(x) == 0) continue;
+        for (int num : nums) {
 
-            // use x
-            count.put(x, count.get(x) - 1);
-
-            // extend a subsequence ending at x-1
-            if (tail.getOrDefault(x - 1, 0) > 0) {
-                tail.put(x - 1, tail.get(x - 1) - 1);
-                tail.put(x, tail.getOrDefault(x, 0) + 1);
+            // Any subsequence ending before (num - 1) can never be extended now.
+            // It must already have length >= 3.
+            while (!pq.isEmpty() && pq.peek().element < num - 1) {
+                if (pq.poll().size < 3) return false;
             }
-            // start new subsequence x, x+1, x+2
-            else if (count.getOrDefault(x + 1, 0) > 0 && count.getOrDefault(x + 2, 0) > 0) {
-                count.put(x + 1, count.get(x + 1) - 1);
-                count.put(x + 2, count.get(x + 2) - 1);
-                tail.put(x + 2, tail.getOrDefault(x + 2, 0) + 1);
+
+            // Extend the shortest subsequence that ends at num - 1, if it exists.
+            if (!pq.isEmpty() && pq.peek().element == num - 1) {
+                Pair p = pq.poll();
+                p.element = num;
+                p.size++;
+                pq.offer(p);
             } else {
-                return false;
+                // Otherwise start a new subsequence at num
+                pq.offer(new Pair(num, 1));
             }
         }
+
+        // Finalize remaining subsequences
+        while (!pq.isEmpty()) {
+            if (pq.poll().size < 3) return false;
+        }
+
         return true;
+    }
+
+    class Pair {
+        int element, size;
+        Pair(int element, int size) {
+            this.element = element;
+            this.size = size;
+        }
     }
 }
