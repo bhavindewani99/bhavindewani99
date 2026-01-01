@@ -1,53 +1,21 @@
-import java.util.*;
-
 class Solution {
+    int[][] directions = {{0,1},{0,-1},{1,0},{-1,0}};
+    int mod = (int) 1e9 + 7;
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
-        final int MOD = 1_000_000_007;
-        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+        
+        Integer[][][] dp = new Integer[m][n][maxMove+1]; 
+        return dfs(startRow, startColumn, m,n, maxMove, dp);
+    }
 
-        // "BFS by layers", but we must carry multiplicity (how many ways reach each cell)
-        long[][] currWays = new long[m][n];
-        currWays[startRow][startColumn] = 1;
 
-        Queue<int[]> q = new ArrayDeque<>();
-        q.offer(new int[]{startRow, startColumn});
+    private int dfs(int r, int c, int m, int n, int maxMove, Integer[][][] dp){
 
-        long answer = 0;
+        if(r<0 || c<0 || r>=m || c>=n) return 1;
+        if(maxMove == 0) return 0;
+        if(dp[r][c][maxMove] != null) return dp[r][c][maxMove];
 
-        for (int move = 1; move <= maxMove; move++) {
-            long[][] nextWays = new long[m][n];
-            Queue<int[]> nextQ = new ArrayDeque<>();
-            boolean[][] inNextQ = new boolean[m][n]; // only to avoid duplicate positions in queue, not to avoid counting
+        dp[r][c][maxMove] = (((dfs(r+1,c,m,n,maxMove-1,dp) + dfs(r-1,c,m,n,maxMove-1,dp)) % mod) + ((dfs(r,c-1,m,n,maxMove-1,dp) + dfs(r,c+1,m,n,maxMove-1,dp)) % mod)) % mod;
 
-            while (!q.isEmpty()) {
-                int[] cell = q.poll();
-                int r = cell[0], c = cell[1];
-
-                long waysHere = currWays[r][c];
-                if (waysHere == 0) continue;
-
-                for (int[] d : dirs) {
-                    int nr = r + d[0];
-                    int nc = c + d[1];
-
-                    if (nr < 0 || nr >= m || nc < 0 || nc >= n) {
-                        answer = (answer + waysHere) % MOD;
-                    } else {
-                        nextWays[nr][nc] = (nextWays[nr][nc] + waysHere) % MOD;
-                        if (!inNextQ[nr][nc]) {
-                            inNextQ[nr][nc] = true;
-                            nextQ.offer(new int[]{nr, nc});
-                        }
-                    }
-                }
-
-                currWays[r][c] = 0; // clear for safety since we are done with this layer
-            }
-
-            currWays = nextWays;
-            q = nextQ;
-        }
-
-        return (int) answer;
+        return dp[r][c][maxMove];
     }
 }
