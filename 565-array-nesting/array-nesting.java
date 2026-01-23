@@ -1,34 +1,22 @@
 class Solution {
-
     public int arrayNesting(int[] nums) {
-        int n = nums.length;
-        int[] result = new int[n];
-        Arrays.fill(result, -1);
+        int best = 0;
 
-        int ans = 0;
-        for (int i = 0; i < n; i++) {
-            if (result[i] == -1) {
-                ans = Math.max(ans, getSize(i, nums, result, new HashSet<>()));
+        for (int i = 0; i < nums.length; i++) {
+            int count = 0;
+            int cur = i;
+
+            // Walk the chain and mark visited by overwriting with -1
+            while (nums[cur] != -1) {
+                int next = nums[cur];
+                nums[cur] = -1;
+                cur = next;
+                count++;
             }
-        }
-        return ans;
-    }
 
-    private int getSize(int index, int[] nums, int[] result, Set<Integer> visiting) {
-        // already computed
-        if (result[index] != -1) return result[index];
-
-        // cycle detected
-        if (visiting.contains(index)) {
-            return 0;
+            if (count > best) best = count;
         }
 
-        visiting.add(index);
-
-        int size = 1 + getSize(nums[index], nums, result, visiting);
-
-        //visiting.remove(index);
-        result[index] = size;
-        return size;
+        return best;
     }
 }
