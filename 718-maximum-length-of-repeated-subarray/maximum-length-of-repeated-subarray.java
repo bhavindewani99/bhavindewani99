@@ -1,8 +1,6 @@
-import java.util.*;
-
 class Solution {
     private int[] a, b;
-    private int[][] memo;   // -1 means not computed
+    private int[][] memo;
     private int best;
 
     public int findLength(int[] nums1, int[] nums2) {
@@ -29,11 +27,9 @@ class Solution {
         if (i >= a.length || j >= b.length) return 0;
         if (memo[i][j] != -1) return memo[i][j];
 
-        int ans;
+        int ans=0;
         if (a[i] == b[j]) {
             ans = 1 + dfs(i + 1, j + 1);
-        } else {
-            ans = 0;
         }
 
         memo[i][j] = ans;
