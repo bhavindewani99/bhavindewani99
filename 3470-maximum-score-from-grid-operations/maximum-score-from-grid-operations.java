@@ -3,7 +3,7 @@ import java.util.Arrays;
 class Solution {
     public long maximumScore(int[][] grid) {
         int n = grid.length;
-        long[][] prefix = new long[n][n+1];
+        long[][] prefix = new long[n+1][n+1];
 
         // Build column-wise prefix sum
         for(int j = 0; j < n; j++){
