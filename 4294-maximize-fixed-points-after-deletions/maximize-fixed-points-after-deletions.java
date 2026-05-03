@@ -3,50 +3,48 @@ import java.util.*;
 class Solution {
     public int maxFixedPoints(int[] nums) {
         int n = nums.length;
-        List<int[]> candidates = new ArrayList<>();
+        List<int[]> p = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
-            if (nums[i] <= i) {
-                // [value, deletions]
-                candidates.add(new int[]{nums[i], i - nums[i]});
+            if (i >= nums[i]) {
+                p.add(new int[]{i - nums[i], nums[i]});
             }
         }
 
-        // Sort by value ascending. 
-        // If values are equal, sort deletions DESCENDING.
-        // This ensures we only pick one instance of any specific value.
-        candidates.sort((a, b) -> {
+        // Sort pairs: primary key (i - nums[i]), secondary key (nums[i])
+        Collections.sort(p, (a, b) -> {
             if (a[0] != b[0]) return Integer.compare(a[0], b[0]);
-            return Integer.compare(b[1], a[1]);
+            return Integer.compare(a[1], b[1]);
         });
 
-        List<Integer> tails = new ArrayList<>();
-        for (int[] c : candidates) {
-            int d = c[1];
-            // Longest Non-Decreasing Subsequence on deletions
-            if (tails.isEmpty() || d >= tails.get(tails.size() - 1)) {
-                tails.add(d);
+        List<Integer> list = new ArrayList<>();
+        for (int[] pair : p) {
+            int val = pair[1];
+            int idx = lowerBound(list, val);
+
+            if (idx < list.size()) {
+                // If an element >= val exists, replace it (equivalent to erase + insert)
+                list.set(idx, val);
             } else {
-                int idx = firstStrictlyGreater(tails, d);
-                tails.set(idx, d);
+                // Otherwise, extend the sequence
+                list.add(val);
             }
         }
 
-        return tails.size();
+        return list.size();
     }
 
-    private int firstStrictlyGreater(List<Integer> tails, int target) {
-        int low = 0, high = tails.size() - 1;
-        int ans = high;
-        while (low <= high) {
+    // Custom binary search to find the first index where list.get(index) >= target
+    private int lowerBound(List<Integer> list, int target) {
+        int low = 0, high = list.size();
+        while (low < high) {
             int mid = low + (high - low) / 2;
-            if (tails.get(mid) > target) {
-                ans = mid;
-                high = mid - 1;
+            if (list.get(mid) >= target) {
+                high = mid;
             } else {
                 low = mid + 1;
             }
         }
-        return ans;
+        return low;
     }
 }
