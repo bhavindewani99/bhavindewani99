@@ -12,10 +12,7 @@ class Solution {
         }
 
         // Sort: primary key i-nums[i], secondary key nums[i]
-        Collections.sort(p, (a, b) -> {
-            if (a[0] != b[0]) return Integer.compare(a[0], b[0]);
-            return Integer.compare(a[1], b[1]);
-        });
+        Collections.sort(p, (a, b) ->  a[0] - b[0]);
 
         List<Integer> list = new ArrayList<>();
         for (int[] pair : p) {
