@@ -11,7 +11,7 @@ class Solution {
             }
         }
 
-        // Sort pairs: primary key (i - nums[i]), secondary key (nums[i])
+        // Sort: primary key i-nums[i], secondary key nums[i]
         Collections.sort(p, (a, b) -> {
             if (a[0] != b[0]) return Integer.compare(a[0], b[0]);
             return Integer.compare(a[1], b[1]);
@@ -22,11 +22,10 @@ class Solution {
             int val = pair[1];
             int idx = lowerBound(list, val);
 
-            if (idx < list.size()) {
-                // If an element >= val exists, replace it (equivalent to erase + insert)
+            // If an index was found, replace; otherwise, append
+            if (idx != -1) {
                 list.set(idx, val);
             } else {
-                // Otherwise, extend the sequence
                 list.add(val);
             }
         }
@@ -34,17 +33,21 @@ class Solution {
         return list.size();
     }
 
-    // Custom binary search to find the first index where list.get(index) >= target
     private int lowerBound(List<Integer> list, int target) {
-        int low = 0, high = list.size();
-        while (low < high) {
+        int low = 0;
+        int high = list.size() - 1;
+        int ans = -1; // Stores the index of the first element >= target
+
+        while (low <= high) {
             int mid = low + (high - low) / 2;
+
             if (list.get(mid) >= target) {
-                high = mid;
+                ans = mid;    // Found a potential candidate
+                high = mid - 1; // Look for a smaller index on the left
             } else {
-                low = mid + 1;
+                low = mid + 1;  // Look on the right
             }
         }
-        return low;
+        return ans;
     }
 }
