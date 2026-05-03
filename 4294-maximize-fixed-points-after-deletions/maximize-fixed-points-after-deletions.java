@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int maxFixedPoints(int[] nums) {
         int n = nums.length;
@@ -11,7 +9,6 @@ class Solution {
             }
         }
 
-        // Sort: primary key i-nums[i], secondary key nums[i]
         Collections.sort(p, (a, b) ->  a[0] - b[0]);
 
         List<Integer> list = new ArrayList<>();
