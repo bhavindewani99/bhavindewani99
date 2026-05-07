@@ -3,8 +3,7 @@ class Solution {
 
     public int countNumbersWithUniqueDigits(int n) {
         if (n == 0) return 1;
-        // Limit n to 10 because you can't have >10 unique digits
-        n = Math.min(n, 10); 
+        
         
         boolean[] used = new boolean[10];
         backtracking(0, 0, used, n);
