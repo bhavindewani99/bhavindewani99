@@ -15,11 +15,8 @@ class Solution {
         if (digitCount == n) return;
 
         for (int i = 0; i < 10; i++) {
-            // Rule: Multi-digit numbers cannot start with 0
-            if (digitCount > 0 && i == 0 && curr == 0) continue; 
-            // Better rule: If we are at the first position, don't pick 0
-            // (Since 0 is already counted in the initial res = 1)
-            if (digitCount == 0 && i == 0) continue;
+        
+            if (curr == 0 && i == 0) continue;
 
             if (!used[i]) {
                 used[i] = true;
