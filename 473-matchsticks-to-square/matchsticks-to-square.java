@@ -1,38 +1,32 @@
 class Solution {
     public boolean makesquare(int[] matchsticks) {
-        
-        int n = matchsticks.length;
-        boolean[] used = new boolean[n];
-        int sum = 0;
+        int sum = 0, n = matchsticks.length;
+        for (int x : matchsticks) sum += x;
+        if (sum % 4 != 0) return false;
 
-        for(int x: matchsticks) sum += x;
-        if(sum % 4 != 0) return false;
+        // FIX 1: Sort the sticks.
+        // We sort ascending then loop backwards to get the LARGEST sticks first.
+        // Large sticks fail faster, which cuts off huge branches of the recursion tree.
+        Arrays.sort(matchsticks);
 
-        return backtrack(n, matchsticks, used, 0, sum/4, 0, 0);
-
+        int[] sides = new int[4]; // Only need 4 buckets for the 4 sides
+        return backtrack(n, sum / 4, matchsticks, sides, n - 1); // Start from the end (largest)
     }
 
+    private boolean backtrack(int n, int targetSum, int[] matchsticks, int[] sides, int index) {
+        if (index < 0) return true; // All sticks placed
 
-    private boolean backtrack(int n, int[] matchsticks, boolean[] used, int sides, int target, int currsum, int index) {
-    if (sides == 3) return true; // Optimization: 3 sides found = 4th side is guaranteed
-    
-    if (currsum == target) {
-        // Start fresh from index 0 to find the NEXT side
-        return backtrack(n, matchsticks, used, sides + 1, target, 0, 0);
-    }
+        for (int i = 0; i < 4; i++) {
+            // FIX 2: Deduplication Pruning
+            // If this bucket is empty or has the same sum as a previous bucket we just tried,
+            
 
-    for (int i = index; i < n; i++) {
-        if (!used[i] && currsum + matchsticks[i] <= target) {
-            used[i] = true;
-            // Pass the updated sum into the call; if it returns false, 
-            // used[i] = false handles the backtrack perfectly.
-            if (backtrack(n, matchsticks, used, sides, target, currsum + matchsticks[i], i + 1)) {
-                return true;
+            if (sides[i] + matchsticks[index] <= targetSum) {
+                sides[i] += matchsticks[index];
+                if (backtrack(n, targetSum, matchsticks, sides, index - 1)) return true;
+                sides[i] -= matchsticks[index];
             }
-            used[i] = false;
         }
+        return false;
     }
-    return false;
-}
-
 }
