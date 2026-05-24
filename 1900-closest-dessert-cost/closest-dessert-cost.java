@@ -28,11 +28,7 @@ class Solution {
             return;
         }
 
-        // 3. Pruning Optimization: If current cost is already way over target 
-        // and getting larger, we don't need to add more toppings.
-        if (curr - target > difference) {
-            return;
-        }
+        
 
         // Branch 1: Don't take this topping
         recursion(index + 1, toppingCosts, target, curr);
