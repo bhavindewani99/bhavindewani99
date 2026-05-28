@@ -1,48 +1,35 @@
 import java.util.*;
 
 class Solution {
-    int result = 0;
-
     public int beautifulSubsets(int[] nums, int k) {
-        // Sorting is required to only check (nums[index] - k) safely
         Arrays.sort(nums);
+        return recursion(0, nums, k, new HashMap<>()) - 1; 
+    } 
+    
+    private int recursion(int index, int nums[], int k, Map<Integer, Integer> set) { 
+        if (index == nums.length) { 
+            return 1; 
+        } 
         
-        // Use a standard global HashSet as requested
-        recursion(0, nums, k, new HashSet<>());
+        // Don't take choice
+        int not = recursion(index + 1, nums, k, set); 
+        int take = 0; 
         
-        // Subtract 1 to exclude the empty subset configuration
-        return result - 1;
-    }
-
-    private void recursion(int index, int nums[], int k, Set<Integer> set) {
-        // Base case: decisions made for all elements
-        if (index == nums.length) {
-            result++;
-            // System.out.println(set); // Uncomment to see subsets generated
-            return;
-        }
-
-        // Choice 1: DO NOT TAKE the element at 'index'
-        // We can always skip an element safely without conditions
-        recursion(index + 1, nums, k, set);
-
-        // Choice 2: TAKE the element at 'index'
-        // Only allowed if it doesn't conflict with an existing smaller element
-        if (!set.contains(nums[index] - k)) {
+        // Take choice (only check nums[index] - k since the array is sorted)
+        if (set.containsKey(nums[index] - k) == false) { 
+            set.put(nums[index], set.getOrDefault(nums[index], 0) + 1); 
             
-            // Check if this number is already tracked by an earlier identical element
-            boolean alreadyExisted = set.contains(nums[index]);
-
-            if (!alreadyExisted) {
-                set.add(nums[index]); 
+            take = recursion(index + 1, nums, k, set); 
+            
+            // Correctly subtract 1 from the count
+            set.put(nums[index], set.get(nums[index]) - 1); 
+            
+            // Correctly remove the key using its name, not its value
+            if (set.get(nums[index]) == 0) {
+                set.remove(nums[index]); 
             }
-
-            recursion(index + 1, nums, k, set);
-
-            // Backtrack: ONLY remove it if WE were the ones who actually added it
-            if (!alreadyExisted) {
-                set.remove(nums[index]);
-            }
-        }
-    }
+        } 
+        
+        return take + not; 
+    } 
 }
