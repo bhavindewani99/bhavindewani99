@@ -9,11 +9,11 @@ class Solution {
         
         // 2. Reverse the array to make it descending (largest tasks first)
         int n = tasks.length;
-        for (int i = 0; i < n / 2; i++) {
-            int temp = tasks[i];
-            tasks[i] = tasks[n - 1 - i];
-            tasks[n - 1 - i] = temp;
-        }
+        // for (int i = 0; i < n / 2; i++) {
+        //     int temp = tasks[i];
+        //     tasks[i] = tasks[n - 1 - i];
+        //     tasks[n - 1 - i] = temp;
+        // }
 
         // Upper bound: worst case is 1 session per task
         res = n; 
