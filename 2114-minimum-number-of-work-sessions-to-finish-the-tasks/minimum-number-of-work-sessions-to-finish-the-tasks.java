@@ -46,12 +46,9 @@ class Solution {
             }
         }
 
-        // Pruning 2: Try opening a BRAND NEW session bucket for this task
-        // We only do this if it won't exceed our current global minimum 'res'
-        if (sessionCount + 1 < res) {
             sessions[sessionCount] += tasks[taskIndex];
             dfs(taskIndex + 1, sessionCount + 1, tasks, sessionTime, sessions);
             sessions[sessionCount] -= tasks[taskIndex]; // Backtrack
-        }
+        
     }
 }
