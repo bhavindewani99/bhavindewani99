@@ -1,34 +1,44 @@
 class Solution {
-    int result = 0;
     public int maxProduct(String s) {
-        recursion(0, s, "", "");
+        int n = s.length();
+        int maxMask = 1 << n;
+        int[] dp = new int[maxMask];
+        int result = 0;
+
+        for(int mask=1;mask<maxMask;mask++){
+            if(isPalindrome(mask, s, n)){
+                dp[mask] = Integer.bitCount(mask);
+            }
+        }
+
+        for(int m1 = 1;m1<maxMask; m1++){
+            if(dp[m1] == 0) continue;
+
+            for(int m2 = m1+1;m2<maxMask;m2++){
+                if((m1 & m2) == 0 ){
+                    result = Math.max(result, dp[m1] * dp[m2]);
+                }
+            }
+        }
+
         return result;
     }
 
-    private void recursion(int index, String s, String x, String y){
-        if(index == s.length()){
-            if(check(x, y)){
-                result = Math.max(result, x.length() * y.length());
-            }
-            return;
+
+    private boolean isPalindrome(int mask, String s, int n){
+        int left = 0, right = n -1;
+
+        while(left < right){
+
+            while(left < right && ((mask & (1 << left)) == 0)) left++;
+
+            while(right > left && ((mask & (1<<right)) == 0)) right--;
+
+            if(s.charAt(left) != s.charAt(right)) return false;
+
+            left++;
+            right--;
         }
-        recursion(index + 1, s, x + s.charAt(index), y);
-        recursion(index + 1, s, x , y + s.charAt(index));
-        recursion(index + 1, s, x , y);
-    }
-
-    private boolean check(String x, String y){
-        if(x.length() == 0 || y.length()==0) return false;
-
-        for(int i=0;i<x.length()/2;i++){
-            if(x.charAt(i) != x.charAt(x.length() - i-1)) return false;
-        }
-
-        for(int i=0;i<y.length()/2;i++){
-            if(y.charAt(i) != y.charAt(y.length() - i-1)) return false;
-        }
-
         return true;
     }
-
 }
